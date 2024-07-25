@@ -55,7 +55,7 @@ function SignUp() {
     >
       <div>
         <h1 className="font-bold max-w-full text-7xl text-teal-700 mb-6">
-          Register
+          Register-Lol-Firebase
         </h1>
         <p className="font-light max-w-full text-3xl text-slate-800	">
           Join Shelfie today! Create your free account and start discovering and
