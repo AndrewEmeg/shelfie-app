@@ -3,12 +3,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "import.meta.env.VITE_API_KEY",
-  authDomain: "import.meta.env.VITE_AUTH_DOMAIN",
-  projectId: "import.meta.env.VITE_PROJECT_ID",
-  storageBucket: "import.meta.env.VITE_STORAGE_BUCKET",
-  messagingSenderId: "import.meta.env.VITE_MESSAGING_SENDER_ID",
-  appId: "import.meta.env.VITE_APP_ID",
+  apiKey: "AIzaSyA3HJH4vE-U3naG2gTWO0Q5vatQ7JXc604",
+  authDomain: "shelfie-app-73320.firebaseapp.com",
+  projectId: "shelfie-app-73320",
+  storageBucket: "shelfie-app-73320.appspot.com",
+  messagingSenderId: "815500252521",
+  appId: "1:815500252521:web:2e0683353e025a9dddd9f8",
+  measurementId: "G-48S9CEGS6E",
 };
 
 const app = initializeApp(firebaseConfig);
