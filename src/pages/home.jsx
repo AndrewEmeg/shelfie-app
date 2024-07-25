@@ -17,11 +17,9 @@ function Home() {
     }
   };
 
-  return auth.currentUser ? (
+  return (
     <div>
-      <h1 className="text-9xl font-rubik">
-        Welcome, {auth.currentUser?.email}
-      </h1>
+      <h1 className="text-9xl font-rubik">Welcome, Andrew</h1>
       <button
         onClick={handleSignOut}
         className="w-full rounded-lg mt-24 py-6 block font-medium text-3xl text-white bg-teal-700"
@@ -29,8 +27,6 @@ function Home() {
         Sign Out
       </button>
     </div>
-  ) : (
-    <p>No user is signed in</p>
   );
 }
 export default Home;

@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db } from "../config/firebase";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { auth, googleProvider } from "../config/firebase";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+// import { doc, setDoc } from "firebase/firestore";
 
 function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -15,21 +12,63 @@ function SignUp() {
 
   const navigate = useNavigate();
 
+  // const handleSignUpWithGoogle = async () => {
+  //   try {
+  //     await signInWithPopup(auth, googleProvider);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const handleSignUpWithGoogle = async () => {
+  //   signInWithPopup(auth, googleProvider)
+  //     .then((result) => {
+  //       // This gives you a Google Access Token. You can use it to access the Google API.
+  //       // const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       // const token = credential.accessToken;
+  //       // The signed-in user info.
+  //       const user = result.user;
+  //       console.log(user);
+  //       // IdP data available using getAdditionalUserInfo(result)
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       // Handle Errors here.
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // The email of the user's account used.
+  //       const email = error.customData.email;
+  //       // The AuthCredential type that was used.
+  //       const credential = GoogleAuthProvider.credentialFromError(error);
+  //       // ...
+  //     });
+  // };
+
+  const handleSignUpWithGoogle = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error(error);
+    }
+    // setEmail("");
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          console.log(user);
-          console.log("Account has been created");
-          await setDoc(doc(db, "users", user.uid), {
-            firstName,
-            lastName,
-            email: user.email,
-          });
-        }
-      });
+      // onAuthStateChanged(auth, async (user) => {
+      //   if (user) {
+      //     console.log(user);
+      //     console.log("Account has been created");
+      //     await setDoc(doc(db, "users", user.uid), {
+      //       firstName,
+      //       lastName,
+      //       email: user.email,
+      //     });
+      //   }
+      // });
 
       navigate("/home");
     } catch (error) {
@@ -150,7 +189,7 @@ function SignUp() {
       <div className="text-center">
         <span className="text-2xl mb-8 block">Or sign up with</span>
         <button
-          // onClick={}
+          onClick={handleSignUpWithGoogle}
           className="flex justify-center items-center gap-6 w-full rounded-lg py-4 block border border-solid border-gray-400 text-3xl text-slate-800 font-medium mb-8"
         >
           <img className="w-12" src="img/google-logo.png" alt="" />
