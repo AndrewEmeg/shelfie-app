@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, googleProvider } from "../config/firebase";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-// import { doc, setDoc } from "firebase/firestore";
+import { auth, db, googleProvider } from "../config/firebase";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithPopup,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -12,64 +16,43 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  // const handleSignUpWithGoogle = async () => {
-  //   try {
-  //     await signInWithPopup(auth, googleProvider);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const handleSignUpWithGoogle = async () => {
-  //   signInWithPopup(auth, googleProvider)
-  //     .then((result) => {
-  //       // This gives you a Google Access Token. You can use it to access the Google API.
-  //       // const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       // const token = credential.accessToken;
-  //       // The signed-in user info.
-  //       const user = result.user;
-  //       console.log(user);
-  //       // IdP data available using getAdditionalUserInfo(result)
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       // Handle Errors here.
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       // The email of the user's account used.
-  //       const email = error.customData.email;
-  //       // The AuthCredential type that was used.
-  //       const credential = GoogleAuthProvider.credentialFromError(error);
-  //       // ...
-  //     });
-  // };
-
   const handleSignUpWithGoogle = async (e) => {
     e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
+      onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          // const userName = currentUser.displayName;
+          console.log(currentUser);
+
+          await setDoc(doc(db, "users", currentUser.uid), {
+            firstName: currentUser.displayName.split(" ")[0],
+            lastName: currentUser.displayName.split(" ")[1],
+            email: currentUser.email,
+          });
+        }
+      });
+      navigate("/home");
     } catch (error) {
       console.error(error);
     }
-    // setEmail("");
   };
 
-  const handleSignUp = async (e) => {
+  const handleSignUpWithEmailAndPassword = async (e) => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      // onAuthStateChanged(auth, async (user) => {
-      //   if (user) {
-      //     console.log(user);
-      //     console.log("Account has been created");
-      //     await setDoc(doc(db, "users", user.uid), {
-      //       firstName,
-      //       lastName,
-      //       email: user.email,
-      //     });
-      //   }
-      // });
-
+      onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          console.log(currentUser);
+          console.log("Account has been created");
+          await setDoc(doc(db, "users", currentUser.uid), {
+            firstName,
+            lastName,
+            email: currentUser.email,
+          });
+        }
+      });
       navigate("/home");
     } catch (error) {
       console.error(error);
@@ -104,7 +87,7 @@ function SignUp() {
       <div>
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
-          htmlFor=""
+          htmlFor="first-name"
         >
           First Name
           <input
@@ -113,13 +96,13 @@ function SignUp() {
             placeholder="Enter first name"
             className=" w-full rounded-lg p-4  font-light text-2xl border border-solid border-gray-400 text-gray-800"
             type="email"
-            name=""
-            id=""
+            name="first-name"
+            id="first-name"
           />
         </label>
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
-          htmlFor=""
+          htmlFor="last-name"
         >
           Last Name
           <input
@@ -128,14 +111,14 @@ function SignUp() {
             placeholder="Enter last name"
             className=" w-full rounded-lg p-4 font-light text-2xl border border-solid border-gray-400 text-gray-800"
             type="email"
-            name=""
-            id=""
+            name="last-name"
+            id="last-name"
           />
         </label>
 
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
-          htmlFor=""
+          htmlFor="email"
         >
           Email Address
           <input
@@ -144,14 +127,14 @@ function SignUp() {
             placeholder="example@gmail.com"
             className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
             type="email"
-            name=""
-            id=""
+            name="email"
+            id="email"
           />
         </label>
 
         <label
           className=" block mb-8 max-w-full text-2xl text-slate-800 font-normal "
-          htmlFor=""
+          htmlFor="password"
         >
           Password
           <input
@@ -160,26 +143,26 @@ function SignUp() {
             placeholder="Enter your password"
             className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
             type="password"
-            name=""
-            id=""
+            name="password"
+            id="password"
           />
         </label>
 
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
-          htmlFor=""
+          htmlFor="confirm-passoword"
         >
           Confirm Password
           <input
             placeholder="Enter your password"
             className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
             type="password"
-            name=""
-            id=""
+            name="confirm-passoword"
+            id="confirm-passoword"
           />
         </label>
         <button
-          onClick={handleSignUp}
+          onClick={handleSignUpWithEmailAndPassword}
           className="w-full rounded-lg mt-24 py-6 block font-medium text-3xl text-white bg-teal-700"
         >
           Create an account
