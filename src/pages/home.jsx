@@ -11,7 +11,6 @@ function Home() {
   const navigate = useNavigate();
 
   // const { currentUser } = useContext(AuthProvider);
-
   // console.log(currentUser);
 
   const handleSignOut = async (e) => {
@@ -48,7 +47,9 @@ function Home() {
       <h2 className="text-4xl font-rubik">
         {userData.firstName}, I hope you enjoyed your stay
       </h2>
+      <input type="text" />
       {/* <h1 className="text-5xl font-rubik">Welcome, {userData.firstName}</h1> */}
+
       <button
         onClick={handleSignOut}
         className="w-full rounded-lg mt-24 py-6 block font-medium text-3xl text-white bg-teal-700"
