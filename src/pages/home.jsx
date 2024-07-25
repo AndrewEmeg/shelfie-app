@@ -42,20 +42,37 @@ function Home() {
   }, [currentUser]);
 
   return currentUser ? (
-    <div>
-      <h1 className="text-5xl font-rubik">Welcome, {userData.email}</h1>
-      <h2 className="text-4xl font-rubik">
-        {userData.firstName}, I hope you enjoyed your stay
-      </h2>
-      <input type="text" />
+    <div className="font-rubik overflow-hidden flex flex-col justify-around p-16 my-0 mx-auto max-w-screen-sm border-2">
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-5xl font-rubik">
+          Welcome, <span className="font-semibold">{userData.firstName}</span>
+        </h1>
+        <button
+          onClick={handleSignOut}
+          className="rounded-lg py-6 px-12 font-medium text-3xl text-white bg-teal-700"
+        >
+          Sign Out
+        </button>
+      </div>
+
+      <p className="text-4xl font-rubik mb-4">
+        Have a book in mind? Begin your search.
+      </p>
+      <label
+        className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
+        htmlFor="email"
+      >
+        <input
+          placeholder="Atomic Habits"
+          className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+          type="email"
+          name="email"
+          id="email"
+        />
+      </label>
       {/* <h1 className="text-5xl font-rubik">Welcome, {userData.firstName}</h1> */}
 
-      <button
-        onClick={handleSignOut}
-        className="w-full rounded-lg mt-24 py-6 block font-medium text-3xl text-white bg-teal-700"
-      >
-        Sign Out
-      </button>
+      <input></input>
     </div>
   ) : (
     <h1 className="text-5xl font-rubik">No user is logged in.</h1>
