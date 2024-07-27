@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import Header from "../components/header";
+
 // import BookItem from "../components/book-item";
 
 function Home() {
   const [userData, setUserData] = useState({});
   const [query, setQuery] = useState("");
+  const [bookList, setBookList] = useState([]);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -36,32 +38,12 @@ function Home() {
         `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`
       );
       const data = await response.json();
-      console.log(data.items[0].volumeInfo.title);
-      // const bookList = data.items;
-
-      // bookList.map((individualBook) => (
-      //   <BookItem key={individualBook.id} individualBook={individualBook} />
-      // ));
+      console.log(data.items);
+      setBookList(data.items);
     } catch (error) {
       console.error(error);
     }
   };
-
-  // const BookItem = ({ individualBook }) => {
-  //   return (
-  //     <article className="flex gap-8 bg-slate-100 rounded-2xl">
-  //       <img
-  //         src={individualBook.volumeInfo.imageLinks.smallThumbnail}
-  //         alt={`${query} book`}
-  //       />
-  //       <div>
-  //         <h3>{individualBook.volumeInfo.title}</h3>
-  //         <span>Authors: </span>
-  //         <span>{individualBook.volumeInfo.authors}</span>
-  //       </div>
-  //     </article>
-  //   );
-  // };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -105,12 +87,12 @@ function Home() {
           Have a book in mind? Begin your search.
         </p>
         <label
-          className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
+          className="block mb-24 max-w-full text-2xl text-slate-800 font-normal "
           htmlFor="search"
         >
           <input
             placeholder="Atomic Habits"
-            className="w-full rounded-lg p-6 mb-12 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+            className="w-full rounded-lg p-6 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
             type="search"
             name="search"
             id="search"
@@ -120,15 +102,64 @@ function Home() {
         </label>
         <button
           onClick={handleGetBooks}
-          className="rounded-lg py-6 px-12 font-medium text-3xl text-white bg-teal-700"
+          className="rounded-lg mb-24 py-6 px-12 font-medium text-3xl text-white bg-teal-700"
         >
           Get Books
         </button>
-        {/* <BookItem /> */}
+        {bookList && <BookList bookList={bookList} query={query} />}
       </div>
     </>
   ) : (
     <h1 className="text-5xl font-rubik">No user is logged in.</h1>
   );
 }
+
+const BookList = ({ bookList, query }) => {
+  return (
+    <div className="flex flex-col gap-8">
+      {bookList?.map((individualBook) => (
+        <BookItem
+          key={individualBook.id}
+          individualBook={individualBook}
+          query={query}
+        />
+      ))}
+    </div>
+  );
+};
+
+const BookItem = ({ individualBook, query }) => {
+  return (
+    <article className="flex gap-8 bg-slate-100 rounded-2xl">
+      <img
+        src={individualBook?.volumeInfo?.imageLinks?.smallThumbnail}
+        alt={`${query} book`}
+      />
+      <div className="p-8">
+        <h3 className="text-5xl pb-4 font-semibold">
+          {individualBook?.volumeInfo?.title}
+        </h3>
+        <span className="text-2xl">Authors: </span>
+        <span className="text-2xl font-light">
+          {individualBook?.volumeInfo?.authors}
+        </span>{" "}
+        <br />
+        <span className="text-2xl">Pages: </span>
+        <span className="text-2xl font-light">
+          {individualBook?.volumeInfo?.pageCount}
+        </span>
+        <br />
+        <span className="text-2xl">Average Rating: </span>
+        <span className="text-2xl font-light">
+          {individualBook?.volumeInfo?.averageRating}⭐️
+        </span>
+        <br />
+        <span className="text-2xl">Published Date: </span>
+        <span className="text-2xl font-light">
+          {individualBook?.volumeInfo?.publishedDate}
+        </span>
+      </div>
+    </article>
+  );
+};
 export default Home;
