@@ -130,34 +130,39 @@ const BookList = ({ bookList, query }) => {
 
 const BookItem = ({ individualBook, query }) => {
   return (
-    <article className="flex gap-8 bg-slate-100 rounded-2xl">
+    <article className="flex gap-8 bg-slate-100 rounded-2xl items-center">
       <img
         src={individualBook?.volumeInfo?.imageLinks?.smallThumbnail}
         alt={`${query} book`}
       />
-      <div className="p-8">
+      <div className="p-8 flex flex-col justify-center">
         <h3 className="text-5xl pb-4 font-semibold">
           {individualBook?.volumeInfo?.title}
         </h3>
-        <span className="text-2xl">Authors: </span>
-        <span className="text-2xl font-light">
-          {individualBook?.volumeInfo?.authors}
-        </span>{" "}
-        <br />
-        <span className="text-2xl">Pages: </span>
-        <span className="text-2xl font-light">
-          {individualBook?.volumeInfo?.pageCount}
-        </span>
-        <br />
-        <span className="text-2xl">Average Rating: </span>
-        <span className="text-2xl font-light">
-          {individualBook?.volumeInfo?.averageRating}⭐️
-        </span>
-        <br />
-        <span className="text-2xl">Published Date: </span>
-        <span className="text-2xl font-light">
-          {individualBook?.volumeInfo?.publishedDate}
-        </span>
+        <div>
+          <span className="text-2xl">Authors: </span>
+          <span className="text-2xl font-light">
+            {individualBook?.volumeInfo?.authors}
+          </span>{" "}
+        </div>
+        <div>
+          <span className="text-2xl">Pages: </span>
+          <span className="text-2xl font-light">
+            {individualBook?.volumeInfo?.pageCount}
+          </span>
+        </div>
+        <div>
+          <span className="text-2xl">Average Rating: </span>
+          <span className="text-2xl font-light">
+            {individualBook?.volumeInfo?.averageRating}⭐️
+          </span>
+        </div>
+        <div>
+          <span className="text-2xl">Published Date: </span>
+          <span className="text-2xl font-light">
+            {individualBook?.volumeInfo?.publishedDate}
+          </span>
+        </div>
       </div>
     </article>
   );
