@@ -1,16 +1,11 @@
 /* eslint-disable react/prop-types */
 
-import { Link } from "react-router-dom";
-
-const BookList = ({ bookList, query }) => {
+const BookList = ({ bookList }) => {
+  console.log("book list component");
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
       {bookList?.map((individualBook) => (
-        <BookItem
-          key={individualBook.id}
-          individualBook={individualBook}
-          query={query}
-        />
+        <BookItem key={individualBook.id} individualBook={individualBook} />
       ))}
     </div>
   );
@@ -64,13 +59,13 @@ const BookItem = ({ individualBook }) => {
               </span>
             </div>
           </div>
-          <Link
-            to="home/review"
+          <button
+            // to="home/review"
             //   onClick={handleGetBooks}
-            className="rounded-lg mt-4 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
+            className="rounded-lg mt-4 sm:mt-0 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
           >
             Review Book
-          </Link>
+          </button>
         </div>
       </div>
     </article>

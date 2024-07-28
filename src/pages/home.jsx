@@ -3,6 +3,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/header";
 import { useAuth } from "../context/AuthContext";
+import HomeNav from "../components/home-nav";
 
 const Home = () => {
   const { currentUser } = useAuth();
@@ -10,6 +11,7 @@ const Home = () => {
   return currentUser ? (
     <>
       <Header />
+      <HomeNav />
       <Outlet />
     </>
   ) : (

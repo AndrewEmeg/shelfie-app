@@ -4,7 +4,8 @@ import { auth, db } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import { useAuth } from "../context/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+// import BookList from "./book-items";
 
 function Search() {
   const { query, setQuery, setBookList } = useRest();
@@ -32,6 +33,7 @@ function Search() {
     };
     fetchUserData();
   }, [currentUser]);
+
   const handleGetBooks = async () => {
     try {
       const response = await fetch(
@@ -40,6 +42,8 @@ function Search() {
       const data = await response.json();
       console.log(data.items);
       setBookList(data.items);
+      console.log("list set");
+      console.log("list set");
     } catch (error) {
       console.error(error);
     }
@@ -90,12 +94,13 @@ function Search() {
           onChange={(e) => setQuery(e.target.value)}
         />
       </label>
-      <button
+      <NavLink
+        to="books"
         onClick={handleGetBooks}
         className="rounded-lg mb-24 py-6 px-12 font-medium text-3xl text-white bg-teal-700"
       >
         Get Books
-      </button>
+      </NavLink>
       {/* {bookList && <BookList bookList={bookList} query={query} />} */}
     </div>
   );

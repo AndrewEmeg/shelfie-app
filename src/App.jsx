@@ -11,7 +11,7 @@ import BookList from "./components/book-items";
 import Search from "./components/search";
 
 function App() {
-  const { query, bookList } = useRest();
+  const { bookList } = useRest();
   return (
     <BrowserRouter>
       <Routes>
@@ -19,11 +19,9 @@ function App() {
         <Route path="signUp" element={<SignUp />} />
         <Route path="signIn" element={<SignIn />} />
         <Route path="home" element={<Home />}>
-          <Route path="search" element={<Search />} />
-          <Route
-            path={query}
-            element={bookList && <BookList bookList={bookList} query={query} />}
-          />
+          {/* <Route index element={<Search />} /> */}
+          <Route path="c" element={<Search />} />
+          <Route path="books" element={<BookList bookList={bookList} />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
