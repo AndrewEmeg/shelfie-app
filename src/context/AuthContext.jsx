@@ -1,6 +1,8 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../config/firebase";
+import { db } from "../config/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -11,6 +13,7 @@ const useAuth = () => {
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -20,8 +23,27 @@ const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (currentUser) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", currentUser?.uid));
+
+          if (userDoc.exists()) {
+            setUserData(userDoc.data());
+          }
+          // console.log("passed first one");
+          // console.log(userDoc.data().firstName);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchUserData();
+  }, [currentUser]);
+
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <AuthContext.Provider value={{ currentUser, userData }}>
       {children}
     </AuthContext.Provider>
   );

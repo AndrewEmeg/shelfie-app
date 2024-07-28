@@ -1,38 +1,39 @@
 import { useRest } from "../context/RestContext";
-import { useEffect, useState } from "react";
-import { auth, db } from "../config/firebase";
-import { signOut } from "firebase/auth";
+// import { useEffect, useState } from "react";
+// import { db } from "../config/firebase";
+
 import { useAuth } from "../context/AuthContext";
-import { doc, getDoc } from "firebase/firestore";
-import { NavLink, useNavigate } from "react-router-dom";
+// import { doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 // import BookList from "./book-items";
 
 function Search() {
   const { query, setQuery, setBookList } = useRest();
-  const [userData, setUserData] = useState({});
-  const { currentUser } = useAuth();
+  const { userData } = useAuth();
+  //   const [userData, setUserData] = useState({});
+  //   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const apiKey = "AIzaSyCl8aFWcEOsZsTqt9XX8OSUqcKqtJB6MEk";
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (currentUser) {
-        try {
-          const userDoc = await getDoc(doc(db, "users", currentUser?.uid));
+  //   useEffect(() => {
+  //     const fetchUserData = async () => {
+  //       if (currentUser) {
+  //         try {
+  //           const userDoc = await getDoc(doc(db, "users", currentUser?.uid));
 
-          if (userDoc.exists()) {
-            setUserData(userDoc.data());
-          }
-          // console.log("passed first one");
-          // console.log(userDoc.data().firstName);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    fetchUserData();
-  }, [currentUser]);
+  //           if (userDoc.exists()) {
+  //             setUserData(userDoc.data());
+  //           }
+  //           // console.log("passed first one");
+  //           // console.log(userDoc.data().firstName);
+  //         } catch (error) {
+  //           console.error(error);
+  //         }
+  //       }
+  //     };
+  //     fetchUserData();
+  //   }, [currentUser]);
 
   const handleGetBooks = async () => {
     try {
@@ -44,17 +45,7 @@ function Search() {
       setBookList(data.items);
       console.log("list set");
       console.log("list set");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSignOut = async (e) => {
-    e.preventDefault();
-    try {
-      await signOut(auth);
-      console.log("You have been signed out successfully");
-      navigate("/signin");
+      navigate("/home/books");
     } catch (error) {
       console.error(error);
     }
@@ -69,12 +60,6 @@ function Search() {
             {userData && userData.firstName}
           </span>
         </h1>
-        <button
-          onClick={handleSignOut}
-          className="rounded-lg py-6 px-12 font-medium text-3xl text-white bg-teal-700"
-        >
-          Sign Out
-        </button>
       </div>
 
       <p className="text-4xl font-rubik mb-4">
@@ -94,13 +79,13 @@ function Search() {
           onChange={(e) => setQuery(e.target.value)}
         />
       </label>
-      <NavLink
+      <button
         to="books"
         onClick={handleGetBooks}
         className="rounded-lg mb-24 py-6 px-12 font-medium text-3xl text-white bg-teal-700"
       >
         Get Books
-      </NavLink>
+      </button>
       {/* {bookList && <BookList bookList={bookList} query={query} />} */}
     </div>
   );

@@ -9,6 +9,7 @@ import PageNotFound from "./pages/page-not-found";
 import { useRest } from "./context/RestContext";
 import BookList from "./components/book-items";
 import Search from "./components/search";
+import Profile from "./pages/profile";
 
 function App() {
   const { bookList } = useRest();
@@ -19,9 +20,10 @@ function App() {
         <Route path="signUp" element={<SignUp />} />
         <Route path="signIn" element={<SignIn />} />
         <Route path="home" element={<Home />}>
-          {/* <Route index element={<Search />} /> */}
-          <Route path="c" element={<Search />} />
+          <Route index element={<Search />} />
           <Route path="books" element={<BookList bookList={bookList} />} />
+          <Route path="search" element={<Search />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

@@ -8,7 +8,7 @@ function HomeNav() {
     <nav>
       <ul className="flex gap-8 text-3xl font-rubik p-16 mx-auto max-w-screen-lg justify-center">
         <li className=" rounded">
-          <NavLink to="">Search</NavLink>
+          <NavLink to="search">Search</NavLink>
         </li>
         <li className=" rounded">
           <NavLink to="books">Books</NavLink>
