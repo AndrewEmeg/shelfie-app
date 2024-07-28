@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 
+import { Link } from "react-router-dom";
+
 const BookList = ({ bookList, query }) => {
   return (
     <div className="flex flex-col gap-8">
@@ -16,7 +18,7 @@ const BookList = ({ bookList, query }) => {
 
 const BookItem = ({ individualBook }) => {
   return (
-    <article className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 rounded-2xl overflow-hidden">
+    <article className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden">
       <div
         className="col-span-2"
         style={{
@@ -62,12 +64,13 @@ const BookItem = ({ individualBook }) => {
               </span>
             </div>
           </div>
-          <button
+          <Link
+            to="home/review"
             //   onClick={handleGetBooks}
             className="rounded-lg mt-4 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
           >
             Review Book
-          </button>
+          </Link>
         </div>
       </div>
     </article>
