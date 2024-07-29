@@ -12,6 +12,7 @@ const RestProvider = ({ children }) => {
   const [query, setQuery] = useState("");
   const [bookList, setBookList] = useState([]);
   const [showBooks, setShowBooks] = useState(false);
+  const [bookReviewed, setBookReviewed] = useState({});
 
   return (
     <RestContext.Provider
@@ -22,6 +23,8 @@ const RestProvider = ({ children }) => {
         setBookList,
         showBooks,
         setShowBooks,
+        bookReviewed,
+        setBookReviewed,
       }}
     >
       {children}

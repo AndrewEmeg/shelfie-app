@@ -38,13 +38,24 @@ const BookList = ({ bookList }) => {
 
 const BookItem = ({ individualBook }) => {
   const navigate = useNavigate();
+  const { setBookReviewed } = useRest();
 
-  const handleReviewBook = () => {
+  const handleReviewBook = async (volumeId) => {
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes/${volumeId}`
+      );
+      const data = await response.json();
+      console.log(data);
+      setBookReviewed(data);
+    } catch (error) {
+      console.error(error);
+    }
     navigate("review");
   };
   return (
     <article
-      onClick={handleReviewBook}
+      onClick={() => handleReviewBook(individualBook.id)}
       className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
     >
       <div
@@ -94,7 +105,7 @@ const BookItem = ({ individualBook }) => {
           </div>
           <button
             // to="home/review"
-            onClick={handleReviewBook}
+            onClick={() => handleReviewBook(individualBook.id)}
             className="rounded-lg mt-4 sm:mt-0 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
           >
             Review Book
