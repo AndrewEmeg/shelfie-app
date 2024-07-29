@@ -10,6 +10,7 @@ import { useRest } from "./context/RestContext";
 import BookList from "./components/book-items";
 import Search from "./components/search";
 import Profile from "./pages/profile";
+import Review from "./pages/review";
 
 function App() {
   const { bookList } = useRest();
@@ -21,7 +22,9 @@ function App() {
         <Route path="signIn" element={<SignIn />} />
         <Route path="home" element={<Home />}>
           <Route index element={<Search />} />
-          <Route path="books" element={<BookList bookList={bookList} />} />
+          <Route path="books" element={<BookList bookList={bookList} />}>
+            <Route path="review" element={<Review />} />
+          </Route>
           <Route path="search" element={<Search />} />
           <Route path="profile" element={<Profile />} />
         </Route>

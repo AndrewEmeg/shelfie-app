@@ -3,7 +3,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/header";
 import { useAuth } from "../context/AuthContext";
-import HomeNav from "../components/home-nav";
+// import HomeNav from "../components/home-nav";
 // import Search from "../components/search";
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
     <>
       <Header />
 
-      <HomeNav />
+      {/* <HomeNav /> */}
       {/* <Search /> */}
       <Outlet />
     </>
@@ -21,5 +21,9 @@ const Home = () => {
     <h1 className="text-5xl font-rubik">No user is logged in.</h1>
   );
 };
+
+// const Review = () => {
+//   return <div></div>;
+// };
 
 export default Home;

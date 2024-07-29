@@ -1,19 +1,52 @@
 /* eslint-disable react/prop-types */
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useRest } from "../context/RestContext";
+import { useEffect } from "react";
 
 const BookList = ({ bookList }) => {
+  const { showBooks, setShowBooks } = useRest();
+  const location = useLocation();
+  //   const navigate = useNavigate();
   console.log("book list component");
+
+  useEffect(() => {
+    if (location.pathname === "/home/books/review") {
+      setShowBooks(false);
+    } else {
+      setShowBooks(true);
+    }
+  }, [location, setShowBooks]);
+
   return (
-    <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
-      {bookList?.map((individualBook) => (
-        <BookItem key={individualBook.id} individualBook={individualBook} />
-      ))}
+    <div>
+      <ul className="flex gap-4">
+        {/* <li className=" rounded-lg p-6 font-medium text-3xl text-white bg-teal-700">
+          <NavLink to="review">Review</NavLink>
+        </li> */}
+      </ul>
+      <Outlet />
+      {showBooks && (
+        <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
+          {bookList?.map((individualBook) => (
+            <BookItem key={individualBook.id} individualBook={individualBook} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 const BookItem = ({ individualBook }) => {
+  const navigate = useNavigate();
+
+  const handleReviewBook = () => {
+    navigate("review");
+  };
   return (
-    <article className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden">
+    <article
+      onClick={handleReviewBook}
+      className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
+    >
       <div
         className="col-span-2"
         style={{
@@ -61,7 +94,7 @@ const BookItem = ({ individualBook }) => {
           </div>
           <button
             // to="home/review"
-            //   onClick={handleGetBooks}
+            onClick={handleReviewBook}
             className="rounded-lg mt-4 sm:mt-0 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
           >
             Review Book
