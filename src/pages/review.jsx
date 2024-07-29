@@ -1,11 +1,51 @@
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useRest } from "../context/RestContext";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 const Review = () => {
+  const [reviewText, setReviewText] = useState("");
   const navigate = useNavigate();
-  const { bookReviewed } = useRest();
+  const { bookReviewed, bookListReviewed, setBookListReviewed } = useRest();
+  const { currentUser } = useAuth();
   const handleGoToBooks = () => {
     navigate("/home/books");
+  };
+
+  // const cityRef = doc(db, 'cities', 'BJ');
+  // setDoc(cityRef, { capital: true }, { merge: true });
+
+  const newReviewedBook = {
+    reviewText,
+    url: bookReviewed?.volumeInfo?.imageLinks?.thumbnail || "N/A",
+    title: bookReviewed?.volumeInfo?.title || "N/A",
+    subtitle: bookReviewed?.volumeInfo?.subtitle || "N/A",
+    authors: bookReviewed?.volumeInfo?.authors.join(" ") || "N/A",
+    pageCount: bookReviewed?.volumeInfo?.pageCount || "N/A",
+    averageRating: bookReviewed?.volumeInfo?.averageRating || "N/A",
+    publishedDate: bookReviewed?.volumeInfo?.publishedDate || "N/A",
+    description: bookReviewed?.volumeInfo?.description || "N/A",
+  };
+
+  const handleSubmitReview = (e) => {
+    e.preventDefault();
+    setBookListReviewed((previousList) => [...previousList, newReviewedBook]);
+    // The review for this book is that I want to read it now, now.
+
+    const userRef = doc(db, "users", currentUser.uid);
+    try {
+      setDoc(
+        userRef,
+        {
+          booksReviewed: bookListReviewed,
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -18,6 +58,31 @@ const Review = () => {
         Books
       </button>
       <span className="text-7xl ">This is the Review page.</span>
+      <form>
+        <label
+          className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
+          htmlFor="review"
+        >
+          <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            placeholder="Write your review..."
+            rows={5}
+            className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+            type="email"
+            name="review"
+            id="review"
+          >
+            Write your review...
+          </textarea>
+        </label>
+        <button
+          onClick={handleSubmitReview}
+          className="w-full rounded-lg mt-8 py-6 block font-medium text-3xl text-white bg-teal-700"
+        >
+          Submit Review
+        </button>
+      </form>
       <article className="grid sm:gap-8 grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 rounded-2xl overflow-hidden">
         {/* <img
           src={bookReviewed?.volumeInfo?.imageLinks?.thumbnail}
@@ -66,7 +131,7 @@ const Review = () => {
           </div>
         </div>
       </article>
-      <p>{bookReviewed?.volumeInfo?.description}</p>
+      <p className="text-2xl">{bookReviewed?.volumeInfo?.description}</p>
     </div>
   );
 };
