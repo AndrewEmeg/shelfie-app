@@ -5,44 +5,48 @@ import { useRest } from "../context/RestContext";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
+// const andrew = {
+//   name: "andrew",
+//   class: "sophomore",
+// };
+
 const Review = () => {
   const [reviewText, setReviewText] = useState("");
   const navigate = useNavigate();
-  const { bookReviewed, bookListReviewed, setBookListReviewed } = useRest();
+  const { bookReviewed } = useRest();
+  const [bookListReviewed, setBookListReviewed] = useState([]);
   const { currentUser } = useAuth();
+
+  const updateReviewedBookList = () => {
+    console.log(reviewText);
+    const newReviewedBook = {
+      reviewText,
+      url: bookReviewed?.volumeInfo?.imageLinks?.thumbnail || "N/A",
+      title: bookReviewed?.volumeInfo?.title || "N/A",
+      subtitle: bookReviewed?.volumeInfo?.subtitle || "N/A",
+      authors: bookReviewed?.volumeInfo?.authors.join(" ") || "N/A",
+      pageCount: bookReviewed?.volumeInfo?.pageCount || "N/A",
+      averageRating: bookReviewed?.volumeInfo?.averageRating || "N/A",
+      publishedDate: bookReviewed?.volumeInfo?.publishedDate || "N/A",
+      description: bookReviewed?.volumeInfo?.description || "N/A",
+    };
+    console.log(newReviewedBook);
+    setBookListReviewed((previousList) => [...previousList, newReviewedBook]);
+    console.log(bookListReviewed);
+  };
+
   const handleGoToBooks = () => {
     navigate("/home/books");
   };
 
-  // const cityRef = doc(db, 'cities', 'BJ');
-  // setDoc(cityRef, { capital: true }, { merge: true });
-
-  const newReviewedBook = {
-    reviewText,
-    url: bookReviewed?.volumeInfo?.imageLinks?.thumbnail || "N/A",
-    title: bookReviewed?.volumeInfo?.title || "N/A",
-    subtitle: bookReviewed?.volumeInfo?.subtitle || "N/A",
-    authors: bookReviewed?.volumeInfo?.authors.join(" ") || "N/A",
-    pageCount: bookReviewed?.volumeInfo?.pageCount || "N/A",
-    averageRating: bookReviewed?.volumeInfo?.averageRating || "N/A",
-    publishedDate: bookReviewed?.volumeInfo?.publishedDate || "N/A",
-    description: bookReviewed?.volumeInfo?.description || "N/A",
-  };
-
   const handleSubmitReview = (e) => {
     e.preventDefault();
-    setBookListReviewed((previousList) => [...previousList, newReviewedBook]);
-    // The review for this book is that I want to read it now, now.
-
+    updateReviewedBookList();
+    console.log(bookReviewed);
+    // setBookListReviewed((previousList) => [...previousList, newReviewedBook]);
     const userRef = doc(db, "users", currentUser.uid);
     try {
-      setDoc(
-        userRef,
-        {
-          booksReviewed: bookListReviewed,
-        },
-        { merge: true }
-      );
+      setDoc(userRef, { booksReviewed: bookListReviewed }, { merge: true });
     } catch (error) {
       console.error(error);
     }
@@ -77,7 +81,7 @@ const Review = () => {
           </textarea>
         </label>
         <button
-          onClick={handleSubmitReview}
+          onClick={() => handleSubmitReview}
           className="w-full rounded-lg mt-8 py-6 block font-medium text-3xl text-white bg-teal-700"
         >
           Submit Review

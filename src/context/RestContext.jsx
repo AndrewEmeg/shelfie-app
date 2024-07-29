@@ -13,7 +13,6 @@ const RestProvider = ({ children }) => {
   const [bookList, setBookList] = useState([]);
   const [showBooks, setShowBooks] = useState(false);
   const [bookReviewed, setBookReviewed] = useState({});
-  const [bookListReviewed, setBookListReviewed] = useState([]);
 
   return (
     <RestContext.Provider
@@ -26,8 +25,6 @@ const RestProvider = ({ children }) => {
         setShowBooks,
         bookReviewed,
         setBookReviewed,
-        bookListReviewed,
-        setBookListReviewed,
       }}
     >
       {children}

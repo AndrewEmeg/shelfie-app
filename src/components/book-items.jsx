@@ -46,7 +46,7 @@ const BookItem = ({ individualBook }) => {
         `https://www.googleapis.com/books/v1/volumes/${volumeId}`
       );
       const data = await response.json();
-      console.log(data);
+      //   console.log(data);
       setBookReviewed(data);
     } catch (error) {
       console.error(error);
