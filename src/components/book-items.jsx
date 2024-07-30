@@ -2,6 +2,8 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useRest } from "../context/RestContext";
 import { useEffect } from "react";
+import HomeNav from "./home-nav";
+import "./active.css";
 
 const BookList = ({ bookList }) => {
   const { showBooks, setShowBooks } = useRest();
@@ -10,7 +12,11 @@ const BookList = ({ bookList }) => {
   console.log("book list component");
 
   useEffect(() => {
-    if (location.pathname === "/home/books/review") {
+    if (
+      location.pathname === "/home/books/review" ||
+      location.pathname === "/home/books/my-list" ||
+      location.pathname === "/home/books/general"
+    ) {
       setShowBooks(false);
     } else {
       setShowBooks(true);
@@ -19,12 +25,13 @@ const BookList = ({ bookList }) => {
 
   return (
     <div>
+      <HomeNav />
       <ul className="flex gap-4">
         {/* <li className=" rounded-lg p-6 font-medium text-3xl text-white bg-teal-700">
           <NavLink to="review">Review</NavLink>
         </li> */}
       </ul>
-      <Outlet />
+      {!showBooks && <Outlet />}
       {showBooks && (
         <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
           {bookList?.map((individualBook) => (

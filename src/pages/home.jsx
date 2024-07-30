@@ -13,7 +13,6 @@ const Home = () => {
     <>
       <Header />
 
-      {/* <HomeNav /> */}
       {/* <Search /> */}
       <Outlet />
     </>

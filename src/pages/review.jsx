@@ -28,6 +28,7 @@ const Review = () => {
       averageRating: bookReviewed?.volumeInfo?.averageRating || "N/A",
       publishedDate: bookReviewed?.volumeInfo?.publishedDate || "N/A",
       description: bookReviewed?.volumeInfo?.description || "N/A",
+      id: bookReviewed?.id || "N/A",
     };
     console.log(newReviewedBook);
 
@@ -48,18 +49,23 @@ const Review = () => {
       console.error(error);
     }
     setReviewText("");
+    alert("You have successfully reviewed a book");
+    handleGoToBooks();
+    // navigate("success");
   };
 
   return (
     <div className="p-16 max-w-screen-lg my-0 mx-auto">
       <button
-        to="books"
         onClick={handleGoToBooks}
-        className=" rounded-lg p-6 font-medium text-3xl text-white bg-teal-700"
+        className="flex gap-4 items-center justify-center font-medium text-3xl text-teal-700 mb-8"
       >
-        Books
+        <ion-icon
+          style={{ color: "#1f766e", width: "36px", height: "36px" }}
+          name="arrow-back-circle-outline"
+        ></ion-icon>
+        Back to books
       </button>
-      <span className="text-7xl ">This is the Review page.</span>
       <form>
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
@@ -79,8 +85,9 @@ const Review = () => {
           </textarea>
         </label>
         <button
+          to="success"
           onClick={handleSubmitReview}
-          className="w-full rounded-lg mt-8 py-6 block font-medium text-3xl text-white bg-teal-700"
+          className="w-full rounded-lg mt-8 mb-24 py-6 block font-medium text-3xl text-white bg-teal-700"
         >
           Submit Review
         </button>
@@ -133,7 +140,7 @@ const Review = () => {
           </div>
         </div>
       </article>
-      <p className="text-2xl">{bookReviewed?.volumeInfo?.description}</p>
+      <p className="pt-6 text-2xl">{bookReviewed?.volumeInfo?.description}</p>
     </div>
   );
 };

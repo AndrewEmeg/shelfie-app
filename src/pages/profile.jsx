@@ -4,7 +4,7 @@ function Profile() {
   const { userData } = useAuth();
   //   const { currentUser } = useAuth();
   return (
-    <div>
+    <div className="font-rubik p-16 my-0 mx-auto max-w-screen-sm">
       <h1 className="text-5xl">This is your profile, {userData.firstName}</h1>
       <p className="text-3xl">
         Your full name is {userData.firstName} {userData.lastName}
