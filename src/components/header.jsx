@@ -39,7 +39,7 @@ const Header = () => {
     navigate("/home/profile");
   };
   return (
-    <div className="flex justify-between bg-teal-700 p-16 items-center relative">
+    <div className="flex justify-between bg-teal-700 px-16 py-8 items-center relative">
       <div className="flex gap-6 items-center">
         <img src="img/shelfie-favicon-02.png" alt="Shelfie Logo" />
         <p className="text-5xl text-white font-rubik">Shelfie</p>

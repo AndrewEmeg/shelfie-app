@@ -10,30 +10,8 @@ import { useNavigate } from "react-router-dom";
 function Search() {
   const { query, setQuery, setBookList } = useRest();
   const { userData } = useAuth();
-  //   const [userData, setUserData] = useState({});
-  //   const { currentUser } = useAuth();
   const navigate = useNavigate();
-
   const apiKey = "AIzaSyCl8aFWcEOsZsTqt9XX8OSUqcKqtJB6MEk";
-
-  //   useEffect(() => {
-  //     const fetchUserData = async () => {
-  //       if (currentUser) {
-  //         try {
-  //           const userDoc = await getDoc(doc(db, "users", currentUser?.uid));
-
-  //           if (userDoc.exists()) {
-  //             setUserData(userDoc.data());
-  //           }
-  //           // console.log("passed first one");
-  //           // console.log(userDoc.data().firstName);
-  //         } catch (error) {
-  //           console.error(error);
-  //         }
-  //       }
-  //     };
-  //     fetchUserData();
-  //   }, [currentUser]);
 
   const handleGetBooks = async () => {
     try {
@@ -52,7 +30,7 @@ function Search() {
   };
 
   return (
-    <div className="font-rubik overflow-hidden flex flex-col justify-around p-16 my-0 mx-auto max-w-screen-lg border-2">
+    <div className="font-rubik rounded-md overflow-hidden flex flex-col justify-around p-16 my-16 shadow-2xl mx-auto max-w-screen-lg">
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-5xl font-rubik">
           Welcome,{" "}
@@ -82,7 +60,7 @@ function Search() {
       <button
         to="books"
         onClick={handleGetBooks}
-        className="rounded-lg mb-24 py-6 px-12 font-medium text-3xl text-white bg-teal-700"
+        className="rounded-lg py-6 px-12 font-medium text-3xl text-white bg-teal-700"
       >
         Get Books
       </button>
