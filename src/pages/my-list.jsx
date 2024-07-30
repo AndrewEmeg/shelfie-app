@@ -15,24 +15,18 @@ function MyList() {
         const books = userRef.data().booksReviewed;
         setReviewedList(books);
       }
-      try {
-        const response = await fetch(
-          `https://www.googleapis.com/books/v1/volumes/${volumeId}`
-        );
-        const data = await response.json();
-        //   console.log(data);
-        setBookReviewed(data);
-      } catch (error) {
-        console.error(error);
-      }
     };
 
     getUserReviewedBooks();
-  }, []);
+  }, [currentUser.uid]);
+
   return (
-    <div className="font-rubik px-16 my-0 mx-auto max-w-screen-sm border-2 ">
+    <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
       {reviewedList.map((book) => (
-        <article key={book.id}>
+        <article
+          className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
+          key={book.id}
+        >
           <div
             className="col-span-2"
             style={{
@@ -41,16 +35,17 @@ function MyList() {
               backgroundSize: "100%",
             }}
           ></div>
-          <div className="sm:col-start-3 sm:col-end-10">
+          <div className="sm:col-start-3 sm:col-end-10 p-8">
             <h1 className="text-5xl pb-4 font-semibold ">{book?.title}</h1>
 
             <div>
               <span className="text-3xl pb-4 font-medium">Your Review: </span>
-              <span className="text-3xl pb-4 font-medium ">
+              <span className="text-3xl pb-4 font-light ">
                 {book?.reviewText}
               </span>
             </div>
-            <div>
+          </div>
+          {/* <div>
               <span className="text-2xl">Authors: </span>
               <span className="text-2xl font-light">{book?.authors}</span>
             </div>
@@ -64,12 +59,11 @@ function MyList() {
             <div>
               <span className="text-2xl">Published Date: </span>
               <span className="text-2xl font-light">{book?.publishedDate}</span>
-            </div>
-            {/* <div>
+            </div> */}
+          {/* <div>
               <span className="text-2xl">Your Review: </span>
               <span className="text-2xl font-light">{book?.reviewText}</span>
             </div> */}
-          </div>
         </article>
       ))}
     </div>
@@ -77,6 +71,3 @@ function MyList() {
 }
 
 export default MyList;
-("http://books.google.com/books/publisher/content?id=lFhbDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE72vq2ldIX895NaTRe9xJjIg7G-gxVLOgwLwhWTA2zXXH05ji2KdT5Fqit4fHg0qxRqlpOmykTnae4UpE47CFLPX3jHCeW0_nmHx6dZG2bxfyQp02Z9cxw5jCVHZK5_21KiIsX_F&source=gbs_api");
-
-("http://books.google.com/books/content?id=lFhbDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
