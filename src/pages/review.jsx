@@ -1,23 +1,22 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useRest } from "../context/RestContext";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
-// const andrew = {
-//   name: "andrew",
-//   class: "sophomore",
-// };
-
 const Review = () => {
   const [reviewText, setReviewText] = useState("");
   const navigate = useNavigate();
   const { bookReviewed } = useRest();
-  const [bookListReviewed, setBookListReviewed] = useState([]);
   const { currentUser } = useAuth();
 
-  const updateReviewedBookList = () => {
+  const handleGoToBooks = () => {
+    navigate("/home/books");
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
     console.log(reviewText);
     const newReviewedBook = {
       reviewText,
@@ -31,25 +30,24 @@ const Review = () => {
       description: bookReviewed?.volumeInfo?.description || "N/A",
     };
     console.log(newReviewedBook);
-    setBookListReviewed((previousList) => [...previousList, newReviewedBook]);
-    console.log(bookListReviewed);
-  };
 
-  const handleGoToBooks = () => {
-    navigate("/home/books");
-  };
-
-  const handleSubmitReview = (e) => {
-    e.preventDefault();
-    updateReviewedBookList();
-    console.log(bookReviewed);
-    // setBookListReviewed((previousList) => [...previousList, newReviewedBook]);
-    const userRef = doc(db, "users", currentUser.uid);
+    let bookListFromDB = [];
+    const userRef = await getDoc(doc(db, "users", currentUser.uid));
+    if (userRef.data().booksReviewed) {
+      console.log("User bookList:", userRef.data().booksReviewed);
+      bookListFromDB = userRef.data().booksReviewed;
+    }
     try {
-      setDoc(userRef, { booksReviewed: bookListReviewed }, { merge: true });
+      const userReff = doc(db, "users", currentUser.uid);
+      await setDoc(
+        userReff,
+        { booksReviewed: [...bookListFromDB, newReviewedBook] },
+        { merge: true }
+      );
     } catch (error) {
       console.error(error);
     }
+    setReviewText("");
   };
 
   return (
@@ -81,7 +79,7 @@ const Review = () => {
           </textarea>
         </label>
         <button
-          onClick={() => handleSubmitReview}
+          onClick={handleSubmitReview}
           className="w-full rounded-lg mt-8 py-6 block font-medium text-3xl text-white bg-teal-700"
         >
           Submit Review

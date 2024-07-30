@@ -11,6 +11,7 @@ import BookList from "./components/book-items";
 import Search from "./components/search";
 import Profile from "./pages/profile";
 import Review from "./pages/review";
+import Success from "./pages/success";
 
 function App() {
   const { bookList } = useRest();
@@ -24,6 +25,7 @@ function App() {
           <Route index element={<Search />} />
           <Route path="books" element={<BookList bookList={bookList} />}>
             <Route path="review" element={<Review />} />
+            <Route path="success" element={<Success />} />
           </Route>
           <Route path="search" element={<Search />} />
           <Route path="profile" element={<Profile />} />
