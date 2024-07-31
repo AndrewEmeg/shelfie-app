@@ -10,6 +10,7 @@ function General() {
 function List() {
   const [generalReviewedList, setGeneralReviewedList] = useState([]);
   const [individualBookRev, setIndividualbookRev] = useState([]);
+  //   const [isOpen, setIsOpen] = useState(true);
   //   { userFullName: "andrew", reviewText: "lol" },
   //   { userFullName: "ldlfkajd", reviewText: "lddddol" },
   console.log("component rendered");
@@ -46,6 +47,10 @@ function List() {
       .flat();
     console.log(newGenRevList);
     setIndividualbookRev(newGenRevList);
+
+    if (id === individualBookRev[0]?.bookID) {
+      setIndividualbookRev([]);
+    }
   };
 
   useEffect(() => {
@@ -53,34 +58,33 @@ function List() {
   }, [individualBookRev]);
 
   return (
-    <div className="grid grid-cols-2">
-      <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
-        {generalReviewedList.map((book) => (
-          <article
-            className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
-            key={book.bookID}
-          >
-            <div
-              className="col-span-2"
-              style={{
-                backgroundImage: `url(${book?.url})`,
-                backgroundRepeat: "repeat",
-                backgroundSize: "100%",
-              }}
-            ></div>
-            <div className="sm:col-start-3 sm:col-end-10 p-8">
-              <h1 className="text-5xl pb-4 font-semibold ">{book?.title}</h1>
+    <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
+      {generalReviewedList.map((book) => (
+        <article
+          className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
+          key={book.bookID}
+        >
+          <div
+            className="col-span-2"
+            style={{
+              backgroundImage: `url(${book?.url})`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "100%",
+            }}
+          ></div>
+          <div className="sm:col-start-3 sm:col-end-10 p-8">
+            <h1 className="text-5xl pb-4 font-semibold ">{book?.title}</h1>
 
-              <button
-                // to="home/review"
-                onClick={() => getIndivReviews(book.bookID)}
-                className="rounded-lg mt-4 sm:mt-0 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
-              >
-                Show reviews for this book
-              </button>
-            </div>
+            <button
+              // to="home/review"
+              onClick={() => getIndivReviews(book.bookID)}
+              className="rounded-lg mt-4 sm:mt-0 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
+            >
+              Show reviews for this book
+            </button>
+          </div>
 
-            {/* <div>
+          {/* <div>
               <span className="text-2xl">Authors: </span>
               <span className="text-2xl font-light">{book?.authors}</span>
             </div>
@@ -95,16 +99,18 @@ function List() {
               <span className="text-2xl">Published Date: </span>
               <span className="text-2xl font-light">{book?.publishedDate}</span>
             </div> */}
-            {/* <div>
+          {/* <div>
               <span className="text-2xl">Your Review: </span>
               <span className="text-2xl font-light">{book?.reviewText}</span>
             </div> */}
-          </article>
-        ))}
-      </div>
-      {individualBookRev && (
-        <Individual className="border" individualBookRev={individualBookRev} />
-      )}
+          {individualBookRev[0]?.bookID === book.bookID && (
+            <Individual
+              className="border"
+              individualBookRev={individualBookRev}
+            />
+          )}
+        </article>
+      ))}
     </div>
   );
 }
@@ -112,12 +118,13 @@ function List() {
 function Individual({ individualBookRev }) {
   console.log(individualBookRev);
   return (
-    <div>
+    <div className="col-span-full">
+      <h1 className="text-4xl font-semibold mb-4">Reviews:</h1>
       {individualBookRev.map((eachReview, index) => (
-        <article key={index}>
-          <p>{eachReview.usersFullName}</p>
-          <span className="text-3xl pb-4 font-light ">
-            {eachReview?.reviewText}
+        <article className="mb-4" key={index}>
+          <p className="text-3xl font-medium">{eachReview.usersFullName}</p>
+          <span className="text-3xl pb-8 font-light mb-4">
+            {`"${eachReview?.reviewText}"`}
           </span>
         </article>
       ))}
