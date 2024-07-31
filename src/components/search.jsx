@@ -30,7 +30,7 @@ function Search() {
   };
 
   return (
-    <div className="font-rubik rounded-md overflow-hidden flex flex-col justify-around p-16 my-16 shadow-2xl mx-auto max-w-screen-lg">
+    <div className="font-rubik rounded-md overflow-hidden flex flex-col justify-around p-16 my-16 sm:shadow-2xl mx-auto max-w-screen-lg">
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-5xl font-rubik">
           Welcome,{" "}

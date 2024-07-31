@@ -9,16 +9,38 @@ const Review = () => {
   const [reviewText, setReviewText] = useState("");
   const navigate = useNavigate();
   const { bookReviewed } = useRest();
-  const { currentUser } = useAuth();
+  const { currentUser, userData } = useAuth();
 
   const handleGoToBooks = () => {
     navigate("/home/books");
+  };
+
+  const addToGeneralReviewList = async (book) => {
+    let generalBookListFromDB = [];
+    const bookRef = await getDoc(doc(db, "books", book.bookID));
+    console.log(bookRef);
+    if (bookRef.exists()) {
+      console.log("User bookList:", bookRef.data().reviewsForBook);
+      generalBookListFromDB = bookRef.data().reviewsForBook;
+    }
+    try {
+      const bookReff = doc(db, "books", book.bookID);
+      await setDoc(
+        bookReff,
+        { reviewsForBook: [...generalBookListFromDB, book] },
+        { merge: true }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     console.log(reviewText);
     const newReviewedBook = {
+      usersFullName: userData.firstName + " " + userData.lastName || "N/A",
+      usersID: currentUser.uid || "N/A",
       reviewText,
       url: bookReviewed?.volumeInfo?.imageLinks?.thumbnail || "N/A",
       title: bookReviewed?.volumeInfo?.title || "N/A",
@@ -28,12 +50,14 @@ const Review = () => {
       averageRating: bookReviewed?.volumeInfo?.averageRating || "N/A",
       publishedDate: bookReviewed?.volumeInfo?.publishedDate || "N/A",
       description: bookReviewed?.volumeInfo?.description || "N/A",
-      id: bookReviewed?.id || "N/A",
+      bookID: bookReviewed?.id || "N/A",
     };
     console.log(newReviewedBook);
 
     let bookListFromDB = [];
     const userRef = await getDoc(doc(db, "users", currentUser.uid));
+    console.log(userRef);
+    console.log(userRef.data());
     if (userRef.data().booksReviewed) {
       console.log("User bookList:", userRef.data().booksReviewed);
       bookListFromDB = userRef.data().booksReviewed;
@@ -51,6 +75,7 @@ const Review = () => {
     setReviewText("");
     alert("You have successfully reviewed a book");
     handleGoToBooks();
+    addToGeneralReviewList(newReviewedBook);
     // navigate("success");
   };
 

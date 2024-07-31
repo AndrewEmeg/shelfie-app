@@ -88,7 +88,7 @@ const BookItem = ({ individualBook }) => {
             <div>
               <span className="text-2xl">Authors: </span>
               <span className="text-2xl font-light">
-                {individualBook?.volumeInfo?.authors.join(" ")}
+                {individualBook?.volumeInfo?.authors?.join(" ")}
               </span>{" "}
             </div>
             {/* <div>
