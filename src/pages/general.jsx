@@ -118,7 +118,7 @@ function List() {
 function Individual({ individualBookRev }) {
   console.log(individualBookRev);
   return (
-    <div className="col-span-full">
+    <div className="col-span-full p-8">
       <h1 className="text-4xl font-semibold mb-4">Reviews:</h1>
       {individualBookRev.map((eachReview, index) => (
         <article className="mb-4" key={index}>
