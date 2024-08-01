@@ -1,10 +1,18 @@
-// import { useAuth } from "../context/AuthContext";
-// import { Navigate, Outlet } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
-// function ProtectedRoutes() {
-//   const { currentUser } = useAuth();
+function ProtectedRoutes({ children }) {
+  const { currentUser, loading } = useAuth();
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-//   return currentUser ? <Outlet /> : <Navigate to="/signIn" />;
-// }
+  if (!currentUser) {
+    return <Navigate to="/signIn" />;
+  }
 
-// export default ProtectedRoutes;
+  return children;
+}
+
+export default ProtectedRoutes;

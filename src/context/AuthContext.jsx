@@ -15,11 +15,13 @@ const useAuth = () => {
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(true);
   //   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      setLoading(false);
     });
 
     return unsubscribe;
@@ -49,7 +51,7 @@ const AuthProvider = ({ children }) => {
   }, [currentUser]);
 
   return (
-    <AuthContext.Provider value={{ currentUser, userData }}>
+    <AuthContext.Provider value={{ currentUser, userData, loading }}>
       {children}
     </AuthContext.Provider>
   );
