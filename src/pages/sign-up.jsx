@@ -13,6 +13,7 @@ function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -154,6 +155,8 @@ function SignUp() {
         >
           Confirm Password
           <input
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Enter your password"
             className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
             type="password"

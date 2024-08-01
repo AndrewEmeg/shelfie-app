@@ -10,6 +10,7 @@ function General() {
 function List() {
   const [generalReviewedList, setGeneralReviewedList] = useState([]);
   const [individualBookRev, setIndividualbookRev] = useState([]);
+  const [search, setSearch] = useState("");
   //   const [isOpen, setIsOpen] = useState(true);
   //   { userFullName: "andrew", reviewText: "lol" },
   //   { userFullName: "ldlfkajd", reviewText: "lddddol" },
@@ -53,15 +54,29 @@ function List() {
     }
   };
 
-  useEffect(() => {
-    console.log(individualBookRev);
-  }, [individualBookRev]);
+  const filteredArray = generalReviewedList.filter((book) =>
+    book.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+  );
 
   return (
     <div className="flex flex-col gap-8 font-rubik p-16 mx-auto max-w-screen-lg">
-      {generalReviewedList.map((book) => (
+      <label
+        className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
+        htmlFor="search"
+      >
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search for books"
+          className=" w-full rounded-lg p-4  font-light text-2xl border border-solid border-gray-400 text-gray-800"
+          type="search"
+          name="search"
+          id="search"
+        />
+      </label>
+      {filteredArray.map((book) => (
         <article
-          className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
+          className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
           key={book.bookID}
         >
           <div
@@ -80,7 +95,9 @@ function List() {
               onClick={() => getIndivReviews(book.bookID)}
               className="rounded-lg mt-4 sm:mt-0 py-4 px-12 font-medium text-2xl text-white bg-teal-700"
             >
-              Show reviews for this book
+              {individualBookRev[0]?.bookID === book.bookID
+                ? "Hide reviews for this book"
+                : "Show reviews for this book"}
             </button>
           </div>
 
