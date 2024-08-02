@@ -14,8 +14,18 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [generalError, setGeneralError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
 
   const navigate = useNavigate();
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+  // let firstNameError;
+  // let lastNameError;
+  // let passwordError;
+  // let emailError;
 
   const handleSignUpWithGoogle = async (e) => {
     e.preventDefault();
@@ -39,8 +49,42 @@ function SignUp() {
     }
   };
 
+  const validateInputs = () => {
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      setError("You can't leave any field empty.");
+      setGeneralError(true);
+      setPasswordError(false);
+      setEmailError(false);
+      return true;
+    } else if (password !== confirmPassword) {
+      setError("Your passwords don't match!");
+      setPasswordError(true);
+      setGeneralError(false);
+      setEmailError(false);
+      return true;
+    } else if (!emailPattern.test(email)) {
+      setError("Please, enter a valid email.");
+      setEmailError(true);
+      setPasswordError(false);
+      setGeneralError(false);
+      return true;
+    }
+  };
+
   const handleSignUpWithEmailAndPassword = async (e) => {
     e.preventDefault();
+    if (validateInputs() === true) {
+      return;
+    }
+    setPasswordError(false);
+    setGeneralError(false);
+    setEmailError(false);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       onAuthStateChanged(auth, async (currentUser) => {
@@ -86,6 +130,7 @@ function SignUp() {
         </p>
       </div>
       <div>
+        <Error error={error} />
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
           htmlFor="first-name"
@@ -95,8 +140,12 @@ function SignUp() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="Enter first name"
-            className=" w-full rounded-lg p-4  font-light text-2xl border border-solid border-gray-400 text-gray-800"
-            type="email"
+            className={`${
+              generalError && firstName === ""
+                ? "border-red-700 border-2"
+                : "border-gray-400 border"
+            } w-full rounded-lg p-4 font-light text-2xl border-solid text-gray-800`}
+            type="text"
             name="first-name"
             id="first-name"
           />
@@ -110,8 +159,12 @@ function SignUp() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Enter last name"
-            className=" w-full rounded-lg p-4 font-light text-2xl border border-solid border-gray-400 text-gray-800"
-            type="email"
+            className={`${
+              generalError && lastName === ""
+                ? "border-red-700 border-2"
+                : "border-gray-400 border"
+            } w-full rounded-lg p-4 font-light text-2xl border-solid text-gray-800`}
+            type="text"
             name="last-name"
             id="last-name"
           />
@@ -126,7 +179,11 @@ function SignUp() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@gmail.com"
-            className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+            className={`${
+              (generalError && email === "") || emailError
+                ? "border-red-700 border-2"
+                : "border-gray-400 border"
+            } w-full rounded-lg p-4 block font-light text-2xl border-solid text-gray-800`}
             type="email"
             name="email"
             id="email"
@@ -142,7 +199,11 @@ function SignUp() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
-            className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+            className={`${
+              (generalError && password === "") || passwordError
+                ? "border-red-700 border-2"
+                : "border-gray-400 border"
+            } w-full rounded-lg p-4 block font-light text-2xl border border-solid text-gray-800`}
             type="password"
             name="password"
             id="password"
@@ -158,7 +219,11 @@ function SignUp() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Enter your password"
-            className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+            className={`${
+              (generalError && confirmPassword === "") || passwordError
+                ? "border-red-700 border-2"
+                : "border-gray-400 border"
+            } w-full rounded-lg p-4 block font-light text-2xl border-solid text-gray-800`}
             type="password"
             name="confirm-passoword"
             id="confirm-passoword"
@@ -182,11 +247,18 @@ function SignUp() {
           <span>Google</span>
         </button>
         <span className="text-2xl">Already have an account? </span>
-        <Link className="text-blue-500 text-2xl font-medium" to="/signIn">
+        <Link className="text-blue-700 text-2xl font-medium" to="/signIn">
           Sign In?
         </Link>
       </div>
     </form>
+  );
+}
+
+// eslint-disable-next-line react/prop-types
+function Error({ error }) {
+  return (
+    <span className="text-red-700 text-3xl font-light pb-4 block">{error}</span>
   );
 }
 export default SignUp;

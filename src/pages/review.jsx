@@ -89,7 +89,7 @@ const Review = () => {
           style={{ color: "#1f766e", width: "36px", height: "36px" }}
           name="arrow-back-circle-outline"
         ></ion-icon>
-        Back to books
+        Back to Search List
       </button>
       <form>
         <label

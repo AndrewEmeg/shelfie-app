@@ -8,10 +8,10 @@ function HomeNav() {
     <nav>
       <ul className="flex gap-8 text-3xl font-rubik p-16 pb-0 mx-auto max-w-screen-lg justify-center">
         <li className="text-teal-700 rounded">
-          <NavLink to="my-list">My List</NavLink>
+          <NavLink to="my-list">My Reviews</NavLink>
         </li>
         <li className="text-teal-700 rounded">
-          <NavLink to="general">See Other&apos;s Reviews</NavLink>
+          <NavLink to="general">Others&apos; Reviews</NavLink>
         </li>
       </ul>
     </nav>

@@ -6,8 +6,12 @@ import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [generalError, setGeneralError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
 
   const navigate = useNavigate();
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
   const handleSignUpWithGoogle = async (e) => {
     e.preventDefault();
@@ -18,15 +22,34 @@ function SignIn() {
       console.error(error);
     }
   };
-
+  const validateInputs = () => {
+    if (email === "" || password === "") {
+      setError("You can't leave any field empty.");
+      setGeneralError(true);
+      setEmailError(false);
+      return true;
+    } else if (!emailPattern.test(email)) {
+      setError("Please, enter a valid email.");
+      setEmailError(true);
+      setGeneralError(false);
+      return true;
+    }
+  };
   const handleSignInWithEmailAndPassword = async (e) => {
     e.preventDefault();
+    if (validateInputs() === true) {
+      return;
+    }
+    setGeneralError(false);
+    setEmailError(false);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Sign In successful");
       navigate("/home");
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+
+      setError("Your email or password is incorrect.");
     }
   };
 
@@ -56,6 +79,7 @@ function SignIn() {
         </p>
       </div>
       <div>
+        <Error error={error} />
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
           htmlFor="email"
@@ -65,7 +89,11 @@ function SignIn() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@gmail.com"
-            className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+            className={`${
+              (generalError && email === "") || emailError
+                ? "border-red-700 border-2"
+                : "border-gray-400 border"
+            } w-full rounded-lg p-4 block font-light text-2xl border-solid text-gray-800`}
             type="email"
             name="email"
             id="email"
@@ -81,7 +109,11 @@ function SignIn() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
-            className="w-full rounded-lg p-4 block font-light text-2xl border border-solid border-gray-400 text-gray-800"
+            className={`${
+              generalError && password === ""
+                ? "border-red-700 border-2"
+                : "border-gray-400 border"
+            } w-full rounded-lg p-4 block font-light text-2xl border border-solid text-gray-800`}
             type="password"
             name="password"
             id="password"
@@ -118,6 +150,12 @@ function SignIn() {
         </Link>
       </div>
     </form>
+  );
+}
+// eslint-disable-next-line react/prop-types
+function Error({ error }) {
+  return (
+    <span className="text-red-700 text-3xl font-light pb-4 block">{error}</span>
   );
 }
 export default SignIn;

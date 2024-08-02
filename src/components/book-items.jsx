@@ -8,8 +8,10 @@ import "./active.css";
 const BookList = ({ bookList }) => {
   const { showBooks, setShowBooks } = useRest();
   const location = useLocation();
+
   //   const navigate = useNavigate();
   console.log("book list component");
+  console.log(bookList);
 
   useEffect(() => {
     if (
@@ -46,11 +48,13 @@ const BookList = ({ bookList }) => {
 const BookItem = ({ individualBook }) => {
   const navigate = useNavigate();
   const { setBookReviewed } = useRest();
+  const apiKey = "AIzaSyCl8aFWcEOsZsTqt9XX8OSUqcKqtJB6MEk";
 
   const handleReviewBook = async (volumeId) => {
+    console.log("it is called");
     try {
       const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes/${volumeId}`
+        `https://www.googleapis.com/books/v1/volumes/${volumeId}?key=${apiKey}`
       );
       const data = await response.json();
       //   console.log(data);
