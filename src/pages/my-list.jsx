@@ -32,7 +32,7 @@ function MyList() {
         reviewedList.map((book) => (
           <article
             className="grid grid-rows-2 sm:grid-cols-9 sm:grid-rows-none sm:gap-0 gap-y-8 bg-slate-100 border border-teal-700 rounded-2xl overflow-hidden"
-            key={book.id}
+            key={book.reviewText}
           >
             <div
               className="col-span-2"

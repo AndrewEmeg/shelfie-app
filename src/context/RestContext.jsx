@@ -11,7 +11,7 @@ const useRest = () => {
 const RestProvider = ({ children }) => {
   const [query, setQuery] = useState("");
   const [bookList, setBookList] = useState([]);
-  const [showBooks, setShowBooks] = useState(false);
+  const [showBooks, setShowBooks] = useState(true);
   const [bookReviewed, setBookReviewed] = useState({});
 
   return (

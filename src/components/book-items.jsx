@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useRest } from "../context/RestContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import HomeNav from "./home-nav";
 import "./active.css";
 
 const BookList = ({ bookList }) => {
+  const [returnToSearch, setReturnToSearch] = useState(true);
   const { showBooks, setShowBooks } = useRest();
   const location = useLocation();
 
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   console.log("book list component");
   console.log(bookList);
 
@@ -23,7 +24,17 @@ const BookList = ({ bookList }) => {
     } else {
       setShowBooks(true);
     }
-  }, [location, setShowBooks]);
+    if (bookList.length === 0) {
+      setReturnToSearch(false);
+    }
+  }, [location, setShowBooks, bookList.length]);
+
+  const handleGoToBooks = () => {
+    navigate("/home/search");
+  };
+
+  console.log("Showbooks:", Boolean(showBooks));
+  console.log("BookList:", Boolean(returnToSearch));
 
   return (
     <div>
@@ -39,6 +50,20 @@ const BookList = ({ bookList }) => {
           {bookList?.map((individualBook) => (
             <BookItem key={individualBook.id} individualBook={individualBook} />
           ))}
+        </div>
+      )}
+      {showBooks && !returnToSearch && (
+        <div className="mx-auto p-40 flex justify-center items-center">
+          <button
+            onClick={handleGoToBooks}
+            className="flex gap-4 items-center justify-center font-medium text-3xl text-teal-700"
+          >
+            <ion-icon
+              style={{ color: "#1f766e", width: "36px", height: "36px" }}
+              name="arrow-back-circle-outline"
+            ></ion-icon>
+            No books for now, Return to Search page.
+          </button>
         </div>
       )}
     </div>
