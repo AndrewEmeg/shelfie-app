@@ -114,7 +114,7 @@ function MyList() {
   ) => {
     const newReviewValue = prompt("Change review to:");
     newReviewValueV2 = newReviewValue;
-    if (newReviewValue) {
+    if (newReviewValueV2) {
       const docRef = doc(db, collectionName, documentID);
       const confirm = window.confirm(
         "Are you sure you want to update this review? Also, note that all reviews that is the same with this one will be updated also."
@@ -152,27 +152,29 @@ function MyList() {
     propertyName,
     propertyValue
   ) => {
-    const docRef = doc(db, collectionName, documentID);
-    try {
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        const array = data[arrayFieldName];
-        for (const item of array) {
-          if (item[propertyName] === propertyValue) {
-            item[propertyName] = newReviewValueV2;
+    if (newReviewValueV2) {
+      const docRef = doc(db, collectionName, documentID);
+      try {
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          const array = data[arrayFieldName];
+          for (const item of array) {
+            if (item[propertyName] === propertyValue) {
+              item[propertyName] = newReviewValueV2;
+            }
           }
-        }
 
-        await updateDoc(docRef, {
-          [arrayFieldName]: array,
-        });
-        console.log("item deleted in general list successfully");
-      } else {
-        console.log("No such document in general list");
+          await updateDoc(docRef, {
+            [arrayFieldName]: array,
+          });
+          console.log("item deleted in general list successfully");
+        } else {
+          console.log("No such document in general list");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
