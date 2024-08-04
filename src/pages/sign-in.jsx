@@ -70,10 +70,10 @@ function SignIn() {
       className="font-rubik overflow-hidden flex flex-col justify-around px-16 my-0 mx-auto max-w-screen-sm border-2 "
     >
       <div>
-        <h1 className="font-bold max-w-full text-7xl text-teal-700 mb-6">
+        <h1 className="font-bold max-w-full text-6xl text-teal-700 mb-6">
           Sign In
         </h1>
-        <p className="font-light max-w-full text-3xl text-slate-800	">
+        <p className="font-light max-w-full text-2xl text-slate-800	">
           Welcome back to Shelfie! Sign in to continue discovering and reviewing
           books.
         </p>
