@@ -97,7 +97,9 @@ const BookItem = ({ individualBook }) => {
       <div
         className="col-span-2"
         style={{
-          backgroundImage: `url(${individualBook?.volumeInfo?.imageLinks?.thumbnail})`,
+          backgroundImage: `url(https${individualBook?.volumeInfo?.imageLinks?.thumbnail.splice(
+            4
+          )})`,
           backgroundRepeat: "repeat",
           backgroundSize: "100%",
         }}
