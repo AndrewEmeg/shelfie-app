@@ -44,11 +44,7 @@ const Header = () => {
   return (
     <div className="flex justify-between bg-teal-700 px-16 py-8 items-center relative">
       <div onClick={handleGoToHome} className="flex gap-6 items-center">
-        <img
-          className="h-16"
-          src="/public/img/shelfie-02.png"
-          alt="Shelfie Logo"
-        />
+        <img className="h-16" src="/img/shelfie-02.png" alt="Shelfie Logo" />
       </div>
       <div>
         {windowWidth < 640 ? (
