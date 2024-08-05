@@ -208,6 +208,14 @@ function MyList() {
                     {`"${book?.reviewText}"`}
                   </span>
                 </div>
+                <div>
+                  <span className="text-3xl pb-4 font-medium">
+                    Your Rating:{" "}
+                  </span>
+                  <span className="text-3xl pb-4 font-light ">
+                    {book?.ratingNumber}⭐️
+                  </span>
+                </div>
               </div>
               <div
                 onClick={() => {

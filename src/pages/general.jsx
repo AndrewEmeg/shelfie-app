@@ -170,8 +170,11 @@ function Individual({ individualBookRev }) {
       {individualBookRev.map((eachReview, index) => (
         <article className="mb-4" key={index}>
           <p className="text-3xl font-medium">{eachReview.usersFullName}</p>
-          <span className="text-3xl pb-8 font-light mb-4">
+          <span className="text-3xl pb-8 font-light mb-4 inline-block mr-8">
             {`"${eachReview?.reviewText}"`}
+          </span>
+          <span className="text-3xl font-medium">
+            {eachReview?.ratingNumber}⭐️
           </span>
         </article>
       ))}

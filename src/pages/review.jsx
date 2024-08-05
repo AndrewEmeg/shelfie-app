@@ -4,8 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useRest } from "../context/RestContext";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import StarRating from "../components/star";
 
 const Review = () => {
+  const [ratingNumber, setRatingNumber] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const navigate = useNavigate();
   const { bookReviewed } = useRest();
@@ -37,46 +40,52 @@ const Review = () => {
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
-    console.log(reviewText);
-    const newReviewedBook = {
-      usersFullName: userData.firstName + " " + userData.lastName || "N/A",
-      usersID: currentUser.uid || "N/A",
-      reviewText,
-      url: bookReviewed?.volumeInfo?.imageLinks?.thumbnail || "N/A",
-      title: bookReviewed?.volumeInfo?.title || "N/A",
-      subtitle: bookReviewed?.volumeInfo?.subtitle || "N/A",
-      authors: bookReviewed?.volumeInfo?.authors.join(" ") || "N/A",
-      pageCount: bookReviewed?.volumeInfo?.pageCount || "N/A",
-      averageRating: bookReviewed?.volumeInfo?.averageRating || "N/A",
-      publishedDate: bookReviewed?.volumeInfo?.publishedDate || "N/A",
-      description: bookReviewed?.volumeInfo?.description || "N/A",
-      bookID: bookReviewed?.id || "N/A",
-    };
-    console.log(newReviewedBook);
+    const confirm = window.confirm(
+      "Note you can change the text portion of your review in the future, but you cannot change the star component. Are you willing to proceed?"
+    );
+    if (confirm) {
+      console.log(reviewText);
+      const newReviewedBook = {
+        usersFullName: userData.firstName + " " + userData.lastName || "N/A",
+        usersID: currentUser.uid || "N/A",
+        reviewText,
+        ratingNumber,
+        url: bookReviewed?.volumeInfo?.imageLinks?.thumbnail || "N/A",
+        title: bookReviewed?.volumeInfo?.title || "N/A",
+        subtitle: bookReviewed?.volumeInfo?.subtitle || "N/A",
+        authors: bookReviewed?.volumeInfo?.authors.join(" ") || "N/A",
+        pageCount: bookReviewed?.volumeInfo?.pageCount || "N/A",
+        averageRating: bookReviewed?.volumeInfo?.averageRating || "N/A",
+        publishedDate: bookReviewed?.volumeInfo?.publishedDate || "N/A",
+        description: bookReviewed?.volumeInfo?.description || "N/A",
+        bookID: bookReviewed?.id || "N/A",
+      };
+      console.log(newReviewedBook);
 
-    let bookListFromDB = [];
-    const userRef = await getDoc(doc(db, "users", currentUser.uid));
-    console.log(userRef);
-    console.log(userRef.data());
-    if (userRef.data().booksReviewed) {
-      console.log("User bookList:", userRef.data().booksReviewed);
-      bookListFromDB = userRef.data().booksReviewed;
+      let bookListFromDB = [];
+      const userRef = await getDoc(doc(db, "users", currentUser.uid));
+      console.log(userRef);
+      console.log(userRef.data());
+      if (userRef.data().booksReviewed) {
+        console.log("User bookList:", userRef.data().booksReviewed);
+        bookListFromDB = userRef.data().booksReviewed;
+      }
+      try {
+        const userReff = doc(db, "users", currentUser.uid);
+        await setDoc(
+          userReff,
+          { booksReviewed: [...bookListFromDB, newReviewedBook] },
+          { merge: true }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+      setReviewText("");
+      alert("You have successfully reviewed a book");
+      handleGoToBooks();
+      addToGeneralReviewList(newReviewedBook);
+      // navigate("success");
     }
-    try {
-      const userReff = doc(db, "users", currentUser.uid);
-      await setDoc(
-        userReff,
-        { booksReviewed: [...bookListFromDB, newReviewedBook] },
-        { merge: true }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-    setReviewText("");
-    alert("You have successfully reviewed a book");
-    handleGoToBooks();
-    addToGeneralReviewList(newReviewedBook);
-    // navigate("success");
   };
 
   return (
@@ -92,6 +101,12 @@ const Review = () => {
         Back to Search List
       </button>
       <form>
+        <StarRating
+          ratingNumber={ratingNumber}
+          setRatingNumber={setRatingNumber}
+          tempRating={tempRating}
+          setTempRating={setTempRating}
+        />
         <label
           className="block mb-8 max-w-full text-2xl text-slate-800 font-normal "
           htmlFor="review"
