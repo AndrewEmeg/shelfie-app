@@ -88,6 +88,12 @@ const Review = () => {
     }
   };
 
+  const htmlTagsFreeParagraph = (text) => {
+    const temp = document.createElement("div");
+    temp.innerHTML = text;
+    return temp.textContent || temp.innerText || "";
+  };
+
   return (
     <div className="p-16 max-w-screen-lg my-0 mx-auto">
       <button
@@ -180,7 +186,9 @@ const Review = () => {
           </div>
         </div>
       </article>
-      <p className="pt-6 text-2xl">{bookReviewed?.volumeInfo?.description}</p>
+      <p className="pt-6 text-2xl">
+        {htmlTagsFreeParagraph(bookReviewed?.volumeInfo?.description)}
+      </p>
     </div>
   );
 };

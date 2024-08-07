@@ -36,7 +36,7 @@ function StarRating({
           </span>
         ))}
       </div>
-      <span className="text-6xl text-teal-700 font-medium">
+      <span className="text-5xl text-teal-700 font-medium">
         {tempRating || ratingNumber}
       </span>
     </div>
