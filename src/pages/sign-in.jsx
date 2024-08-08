@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../config/firebase";
-import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { db } from "../config/firebase";
+import { setDoc, doc } from "firebase/firestore";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -17,6 +23,18 @@ function SignIn() {
     e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
+      onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          // const userName = currentUser.displayName;
+          console.log(currentUser);
+
+          await setDoc(doc(db, "users", currentUser.uid), {
+            firstName: currentUser.displayName.split(" ")[0],
+            lastName: currentUser.displayName.split(" ")[1],
+            email: currentUser.email,
+          });
+        }
+      });
       navigate("/home");
     } catch (error) {
       console.error(error);
