@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   //   const navigate = useNavigate();
+  console.log("auth is about to start running.");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -31,10 +32,12 @@ const AuthProvider = ({ children }) => {
     const fetchUserData = async () => {
       if (currentUser) {
         try {
+          console.log("has not set the Userdoc in auth context yet");
           const userDoc = await getDoc(doc(db, "users", currentUser?.uid));
 
           if (userDoc.exists()) {
             setUserData(userDoc.data());
+            console.log("has now set the Userdoc in auth context yet");
           }
 
           // console.log("passed first one");
@@ -51,7 +54,9 @@ const AuthProvider = ({ children }) => {
   }, [currentUser]);
 
   return (
-    <AuthContext.Provider value={{ currentUser, userData, loading }}>
+    <AuthContext.Provider
+      value={{ currentUser, userData, loading, setUserData }}
+    >
       {children}
     </AuthContext.Provider>
   );

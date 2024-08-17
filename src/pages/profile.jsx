@@ -15,7 +15,7 @@ function Profile() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          const numOfBooks = data["booksReviewed"].length;
+          const numOfBooks = data["booksReviewed"]?.length;
           setNumberOfBooksReviewed(numOfBooks);
         }
       } catch (error) {

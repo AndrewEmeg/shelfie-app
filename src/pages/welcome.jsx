@@ -26,8 +26,12 @@ function Welcome() {
         <h1 className="font-bold max-w-full text-7xl text-teal-700 mb-6">
           Welcome to Shelfie
         </h1>
-        <p className="font-light max-w-full text-3xl text-slate-800	">
+        <p className="font-light max-w-full text-3xl text-slate-800	mb-4">
           Discover and review your favorite books
+        </p>
+        <p className="font-light max-w-full text-3xl text-slate-800	text-red-600">
+          Click &apos;Sign Up&apos; if you&apos;re a new user and &apos;Sign
+          In&apos; if you&apos;re a returning user
         </p>
       </div>
       <div>

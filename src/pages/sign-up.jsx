@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db, googleProvider } from "../config/firebase";
 import {
@@ -6,7 +6,10 @@ import {
   onAuthStateChanged,
   signInWithPopup,
 } from "firebase/auth";
+// import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
+// import { useAuth } from "../context/AuthContext";
+// import { useAuth } from "../context/AuthContext";
 
 function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -18,6 +21,8 @@ function SignUp() {
   const [passwordError, setPasswordError] = useState(false);
   const [generalError, setGeneralError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  // const { setUserData } = useAuth();
+  // let idLists = [];
 
   const navigate = useNavigate();
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -27,6 +32,45 @@ function SignUp() {
   // let passwordError;
   // let emailError;
 
+  // const handleSignUpWithGoogle = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await signInWithPopup(auth, googleProvider);
+  //     onAuthStateChanged(auth, async (currentUser) => {
+  //       if (currentUser) {
+  //         const querySnapshot = await getDocs(collection(db, "users"));
+  //         console.log("querySnapshot:", querySnapshot);
+  //         querySnapshot.forEach(
+  //           (account) => idLists.push(account.id)
+  //           // console.log(account._userDataWriter)
+  //           // console.log(account.id)
+  //         );
+  //         if (!idLists.includes(currentUser.uid)) {
+  //           console.log("has not set the doc yet");
+
+  //           await setDoc(doc(db, "users", currentUser.uid), {
+  //             firstName: currentUser.displayName.split(" ")[0],
+  //             lastName: currentUser.displayName.split(" ")[1],
+  //             email: currentUser.email,
+  //           });
+  //           console.log("has now set the doc yet");
+  //         }
+  //         // const userName = currentUser.displayName;
+  //         console.log("user signed up with google");
+  //         console.log(currentUser);
+  //       }
+  //       const docRef = doc(db, "users", currentUser.uid);
+  //       const documentData = await getDoc(docRef);
+  //       if (documentData.exists()) {
+  //         setUserData(documentData.data());
+  //         console.log("navigating to home now");
+  //         navigate("/home");
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const handleSignUpWithGoogle = async (e) => {
     e.preventDefault();
     try {
@@ -48,7 +92,6 @@ function SignUp() {
       console.error(error);
     }
   };
-
   const validateInputs = () => {
     if (
       firstName === "" ||
@@ -75,6 +118,7 @@ function SignUp() {
       setGeneralError(false);
       return true;
     }
+    return false;
   };
 
   const handleSignUpWithEmailAndPassword = async (e) => {
@@ -98,21 +142,22 @@ function SignUp() {
           });
         }
       });
-      navigate("/home");
     } catch (error) {
       console.error(error);
+      return;
     }
+    navigate("/home");
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     let vh = window.innerHeight * 0.01;
+  //     document.documentElement.style.setProperty("--vh", `${vh}px`);
+  //   };
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   return (
     <form

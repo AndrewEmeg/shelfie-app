@@ -1,13 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../config/firebase";
-import {
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { db } from "../config/firebase";
-import { setDoc, doc } from "firebase/firestore";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+// import { db } from "../config/firebase";
+// import { doc, getDoc } from "firebase/firestore";
+// import { setDoc, doc, getDocs, collection, getDoc } from "firebase/firestore";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -15,31 +12,83 @@ function SignIn() {
   const [error, setError] = useState("");
   const [generalError, setGeneralError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  // let idList = [];
 
   const navigate = useNavigate();
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
-  const handleSignUpWithGoogle = async (e) => {
+  // const handleSignInWithGoogle = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await signInWithPopup(auth, googleProvider);
+  //     onAuthStateChanged(auth, async (currentUser) => {
+  //       if (currentUser) {
+  //         const querySnapshot = await getDocs(collection(db, "users"));
+  //         console.log("querySnapshot:", querySnapshot);
+  //         querySnapshot.forEach(
+  //           (account) => idList.push(account.id)
+  //           // console.log(account._userDataWriter)
+  //           // console.log(account.id)
+  //         );
+  //         if (!idList.includes(currentUser.uid)) {
+  //           try {
+  //             await setDoc(doc(db, "users", currentUser.uid), {
+  //               firstName: currentUser.displayName.split(" ")[0],
+  //               lastName: currentUser.displayName.split(" ")[1],
+  //               email: currentUser.email,
+  //             });
+  //           } catch (error) {
+  //             console.error(error);
+  //             return;
+  //           }
+  //         }
+
+  //         // const userName = currentUser.displayName;
+  //         console.log(currentUser);
+  //       }
+  //       const docRef = doc(db, "users", currentUser.uid);
+  //       const documentData = await getDoc(docRef);
+  //       if (documentData.exists()) {
+  //         navigate("/home");
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return;
+  //   }
+  // };
+  // const checkIfUserExists = () => {
+  //   onAuthStateChanged(auth, async (currentUser) => {
+  //     if (currentUser) {
+  //       const docRef = doc(db, "users", currentUser.uid);
+  //       const documentData = await getDoc(docRef);
+  //       console.log(documentData.data());
+  //       console.log(documentData.exists());
+  //       if (documentData.data()) {
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     }
+  //   });
+  // };
+
+  const handleSignInWithGoogle = async (e) => {
     e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
-      onAuthStateChanged(auth, async (currentUser) => {
-        if (currentUser) {
-          // const userName = currentUser.displayName;
-          console.log(currentUser);
-
-          await setDoc(doc(db, "users", currentUser.uid), {
-            firstName: currentUser.displayName.split(" ")[0],
-            lastName: currentUser.displayName.split(" ")[1],
-            email: currentUser.email,
-          });
-        }
-      });
       navigate("/home");
+      // if (!checkIfUserExists()) {
+      //   console.log("user doesn't exists");
+      //   setError("You don't have an account yet, please click on register");
+      //   console.log(checkIfUserExists());
+      // } else {
+      // }
     } catch (error) {
       console.error(error);
     }
   };
+
   const validateInputs = () => {
     if (email === "" || password === "") {
       setError("You can't leave any field empty.");
@@ -63,23 +112,23 @@ function SignIn() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Sign In successful");
-      navigate("/home");
     } catch (error) {
-      // console.error(error);
-
       setError("Your email or password is incorrect.");
+      return;
+      // console.error(error);
     }
+    navigate("/home");
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     let vh = window.innerHeight * 0.01;
+  //     document.documentElement.style.setProperty("--vh", `${vh}px`);
+  //   };
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   return (
     <form
@@ -149,7 +198,7 @@ function SignIn() {
       <div className="text-center">
         <span className="text-2xl mb-8 block">Or sign in with</span>
         <button
-          onClick={handleSignUpWithGoogle}
+          onClick={handleSignInWithGoogle}
           className="flex justify-center items-center gap-6 w-full rounded-lg py-4 block border border-solid border-gray-400 text-3xl text-slate-800 font-medium mb-20"
         >
           <img className="w-12" src="img/google-logo.png" alt="" />
