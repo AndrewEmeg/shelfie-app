@@ -162,8 +162,7 @@ function SignUp() {
   return (
     <form
       action=""
-      style={{ height: "calc(var(--vh, 1vh) * 100)" }}
-      className="font-rubik overflow-hidden flex flex-col justify-around px-16   my-0 mx-auto max-w-screen-sm border-2 "
+      className="font-rubik overflow-hidden flex flex-col justify-around px-16 my-0 mx-auto max-w-screen-sm border-4 py-16"
     >
       <div>
         <h1 className="font-bold max-w-full text-6xl text-teal-700 mb-6">
@@ -276,7 +275,7 @@ function SignUp() {
         </label>
         <button
           onClick={handleSignUpWithEmailAndPassword}
-          className="w-full rounded-lg mt-24 py-6 block font-medium text-3xl text-white bg-teal-700"
+          className="w-full rounded-lg my-24 py-6 block font-medium text-3xl text-white bg-teal-700"
         >
           Create an account
         </button>
