@@ -33,14 +33,18 @@ function SignUp() {
       onAuthStateChanged(auth, async (currentUser) => {
         if (currentUser) {
           console.log(currentUser);
-          await setDoc(doc(db, "users", currentUser.uid), {
-            firstName: currentUser.displayName.split(" ")[0],
-            lastName: currentUser.displayName.split(" ")[1],
-            email: currentUser.email,
-            fullName:
-              currentUser.displayName.split(" ")[0] +
-              currentUser.displayName.split(" ")[1],
-          });
+          await setDoc(
+            doc(db, "users", currentUser.uid),
+            {
+              firstName: currentUser.displayName.split(" ")[0],
+              lastName: currentUser.displayName.split(" ")[1],
+              email: currentUser.email,
+              fullName:
+                currentUser.displayName.split(" ")[0] +
+                currentUser.displayName.split(" ")[1],
+            },
+            { merge: true }
+          );
         }
       });
       navigate("/home");
@@ -93,12 +97,16 @@ function SignUp() {
         if (currentUser) {
           console.log(currentUser);
           console.log("Account has been created");
-          await setDoc(doc(db, "users", currentUser.uid), {
-            firstName,
-            lastName,
-            email: currentUser.email,
-            fullName: firstName + lastName,
-          });
+          await setDoc(
+            doc(db, "users", currentUser.uid),
+            {
+              firstName,
+              lastName,
+              email: currentUser.email,
+              fullName: firstName + lastName,
+            },
+            { merge: true }
+          );
         }
       });
     } catch (error) {

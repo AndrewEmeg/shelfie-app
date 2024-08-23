@@ -12,6 +12,7 @@ function MyList() {
   const documentID = currentUser.uid;
   const arrayFieldName = "booksReviewed";
   const navigate = useNavigate();
+
   useEffect(() => {
     const docRef = doc(db, collectionName, documentID);
     const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
