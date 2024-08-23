@@ -8,6 +8,7 @@ function MyList() {
   const [reviewedList, setReviewedList] = useState([]);
   const { currentUser } = useAuth();
   const collectionName = "users";
+  console.log(currentUser);
   const documentID = currentUser.uid;
   const arrayFieldName = "booksReviewed";
   const navigate = useNavigate();
