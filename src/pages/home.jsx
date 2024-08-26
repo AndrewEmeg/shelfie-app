@@ -9,9 +9,9 @@ import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
   // const [isLoading, setIsLoading] = useState(true);
-  const { currentUser, userData } = useAuth();
-  console.log("home is about to start running");
-  console.log(userData);
+  const { currentUser } = useAuth();
+  // console.log("home is about to start running");
+  // console.log(userData);
   // useEffect(() => {
   //   const unsubscribe = () => {
   //     if (userData) {

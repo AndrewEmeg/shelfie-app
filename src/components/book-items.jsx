@@ -11,8 +11,8 @@ const BookList = ({ bookList }) => {
   const location = useLocation();
 
   const navigate = useNavigate();
-  console.log("book list component");
-  console.log(bookList);
+  // console.log("book list component");
+  // console.log(bookList);
 
   useEffect(() => {
     if (
@@ -33,8 +33,8 @@ const BookList = ({ bookList }) => {
     navigate("/home/search");
   };
 
-  console.log("Showbooks:", Boolean(showBooks));
-  console.log("BookList:", Boolean(returnToSearch));
+  // console.log("Showbooks:", Boolean(showBooks));
+  // console.log("BookList:", Boolean(returnToSearch));
 
   return (
     <div>
@@ -76,7 +76,7 @@ const BookItem = ({ individualBook }) => {
   const apiKey = "AIzaSyCl8aFWcEOsZsTqt9XX8OSUqcKqtJB6MEk";
 
   const handleReviewBook = async (volumeId) => {
-    console.log("it is called");
+    // console.log("it is called");
     try {
       const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes/${volumeId}?key=${apiKey}`
@@ -85,7 +85,7 @@ const BookItem = ({ individualBook }) => {
       //   console.log(data);
       setBookReviewed(data);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
     navigate("review");
   };

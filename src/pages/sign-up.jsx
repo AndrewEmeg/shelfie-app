@@ -26,13 +26,13 @@ function SignUp() {
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
   const handleSignUpWithGoogle = async (e) => {
-    console.log("ewooo");
+    // console.log("ewooo");
     e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
       onAuthStateChanged(auth, async (currentUser) => {
         if (currentUser) {
-          console.log(currentUser);
+          // console.log(currentUser);
           await setDoc(
             doc(db, "users", currentUser.uid),
             {
@@ -41,6 +41,7 @@ function SignUp() {
               email: currentUser.email,
               fullName:
                 currentUser.displayName.split(" ")[0] +
+                " " +
                 currentUser.displayName.split(" ")[1],
             },
             { merge: true }
@@ -49,7 +50,7 @@ function SignUp() {
       });
       navigate("/home");
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -83,7 +84,7 @@ function SignUp() {
   };
 
   const handleSignUpWithEmailAndPassword = async (e) => {
-    console.log("ewooo");
+    // console.log("ewooo");
     e.preventDefault();
     if (validateInputs() === true) {
       return;
@@ -95,8 +96,8 @@ function SignUp() {
       await createUserWithEmailAndPassword(auth, email, password);
       onAuthStateChanged(auth, async (currentUser) => {
         if (currentUser) {
-          console.log(currentUser);
-          console.log("Account has been created");
+          // console.log(currentUser);
+          // console.log("Account has been created");
           await setDoc(
             doc(db, "users", currentUser.uid),
             {
@@ -110,7 +111,11 @@ function SignUp() {
         }
       });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+      setError("Email already in use");
+      setGeneralError(false);
+      setPasswordError(false);
+      setEmailError(true);
       return;
     }
     navigate("/home");

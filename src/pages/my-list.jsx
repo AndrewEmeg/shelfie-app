@@ -8,7 +8,7 @@ function MyList() {
   const [reviewedList, setReviewedList] = useState([]);
   const { currentUser } = useAuth();
   const collectionName = "users";
-  console.log(currentUser);
+  // console.log(currentUser);
   const documentID = currentUser.uid;
   const arrayFieldName = "booksReviewed";
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ function MyList() {
         const data = docSnapshot.data();
         setReviewedList(data[arrayFieldName]);
       } else {
-        console.log("Document does not exist.");
+        // console.log("Document does not exist.");
       }
     });
     return () => unsubscribe();
@@ -31,7 +31,7 @@ function MyList() {
       const userRef = await getDoc(doc(db, "users", currentUser.uid));
 
       if (userRef.exists()) {
-        console.log(userRef.data().booksReviewed);
+        // console.log(userRef.data().booksReviewed);
         const books = userRef.data().booksReviewed;
         setReviewedList(books);
       }
@@ -69,12 +69,12 @@ function MyList() {
           await updateDoc(docRef, {
             [arrayFieldName]: updatedArray,
           });
-          console.log("item deleted successfully");
+          // console.log("item deleted successfully");
         } else {
-          console.log("No such document");
+          // console.log("No such document");
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     }
   };
@@ -98,12 +98,12 @@ function MyList() {
         await updateDoc(docRef, {
           [arrayFieldName]: updatedArray,
         });
-        console.log("item deleted in general list successfully");
+        // console.log("item deleted in general list successfully");
       } else {
-        console.log("No such document in general list");
+        // console.log("No such document in general list");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -136,12 +136,12 @@ function MyList() {
             await updateDoc(docRef, {
               [arrayFieldName]: array,
             });
-            console.log("item updated successfully");
+            // console.log("item updated successfully");
           } else {
-            console.log("No such document");
+            // console.log("No such document");
           }
         } catch (error) {
-          console.error(error);
+          // console.error(error);
         }
       }
     }
@@ -170,12 +170,12 @@ function MyList() {
           await updateDoc(docRef, {
             [arrayFieldName]: array,
           });
-          console.log("item deleted in general list successfully");
+          // console.log("item deleted in general list successfully");
         } else {
-          console.log("No such document in general list");
+          // console.log("No such document in general list");
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     }
   };

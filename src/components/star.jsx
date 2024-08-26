@@ -13,7 +13,7 @@ function StarRating({
     color: "#D7A944",
     strokeWidth: "12px",
   };
-  console.log(tempRating);
+  // console.log(tempRating);
   return (
     <div className="flex gap-8 mb-8 items-center mt-20">
       <div className="font-rubik flex gap-2">

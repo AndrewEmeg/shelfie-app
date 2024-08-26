@@ -16,22 +16,22 @@ function List() {
   //   const [isOpen, setIsOpen] = useState(true);
   //   { userFullName: "andrew", reviewText: "lol" },
   //   { userFullName: "ldlfkajd", reviewText: "lddddol" },
-  console.log("component rendered");
+  // console.log("component rendered");
   useEffect(() => {
     let genrevList = [];
     const getAllReviewedBooks = async () => {
       const querySnapshot = await getDocs(collection(db, "books"));
       querySnapshot.forEach((doc) => genrevList.push(doc.data()));
-      console.log(genrevList);
+      // console.log(genrevList);
       const newGenRevList = genrevList
         .map((bkreviews) => bkreviews.reviewsForBook)
         .map((bookrevs) => bookrevs[0]);
-      console.log(newGenRevList);
+      // console.log(newGenRevList);
       setGeneralReviewedList(newGenRevList);
-      const individualBookReview = genrevList.map(
-        (bkreviews) => bkreviews.reviewsForBook
-      );
-      console.log(individualBookReview);
+      // const individualBookReview = genrevList.map(
+      //   (bkreviews) => bkreviews.reviewsForBook
+      // );
+      // console.log(individualBookReview);
     };
     getAllReviewedBooks();
   }, []);
@@ -40,7 +40,7 @@ function List() {
     let genrevList = [];
     const querySnapshot = await getDocs(collection(db, "books"));
     querySnapshot.forEach((doc) => genrevList.push(doc.data()));
-    console.log(genrevList);
+    // console.log(genrevList);
     const newGenRevList = genrevList
       .map((bkreviews) => bkreviews.reviewsForBook)
       .filter(
@@ -48,7 +48,7 @@ function List() {
           listOfParticularBookReviews[0]?.bookID === id
       )
       .flat();
-    console.log(newGenRevList);
+    // console.log(newGenRevList);
     setIndividualbookRev(newGenRevList);
 
     if (id === individualBookRev[0]?.bookID) {

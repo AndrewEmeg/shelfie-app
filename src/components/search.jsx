@@ -19,13 +19,13 @@ function Search() {
         `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`
       );
       const data = await response.json();
-      console.log(data.items);
+      // console.log(data.items);
       setBookList(data.items);
-      console.log("list set");
-      console.log("list set");
+      // console.log("list set");
+      // console.log("list set");
       navigate("/home/books");
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 

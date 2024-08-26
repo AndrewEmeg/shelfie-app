@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, googleProvider } from "../config/firebase";
-import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, googleProvider, db } from "../config/firebase";
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -17,9 +22,27 @@ function SignIn() {
     e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
+      onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          // console.log(currentUser);
+          await setDoc(
+            doc(db, "users", currentUser.uid),
+            {
+              firstName: currentUser.displayName.split(" ")[0],
+              lastName: currentUser.displayName.split(" ")[1],
+              email: currentUser.email,
+              fullName:
+                currentUser.displayName.split(" ")[0] +
+                " " +
+                currentUser.displayName.split(" ")[1],
+            },
+            { merge: true }
+          );
+        }
+      });
       navigate("/home");
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -45,9 +68,11 @@ function SignIn() {
     setEmailError(false);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Sign In successful");
+      // console.log("Sign In successful");
     } catch (error) {
-      setError("Your email or password is incorrect.");
+      setError(
+        "Your email or password is incorrect. If you haven't previously created an account, click 'Register.'"
+      );
       return;
     }
     navigate("/home");

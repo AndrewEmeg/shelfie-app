@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   //   const navigate = useNavigate();
-  console.log("auth is about to start running.");
+  // console.log("auth is about to start running.");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -32,18 +32,18 @@ const AuthProvider = ({ children }) => {
     const fetchUserData = async () => {
       if (currentUser) {
         try {
-          console.log("has not set the Userdoc in auth context yet");
+          // console.log("has not set the Userdoc in auth context yet");
           const userDoc = await getDoc(doc(db, "users", currentUser?.uid));
 
           if (userDoc.exists()) {
             setUserData(userDoc.data());
-            console.log("has now set the Userdoc in auth context yet");
+            // console.log("has now set the Userdoc in auth context yet");
           }
 
           // console.log("passed first one");
           // console.log(userDoc.data().firstName);
         } catch (error) {
-          console.error(error);
+          // console.error(error);
         }
         // navigate("/protected-routes");
       } else {
