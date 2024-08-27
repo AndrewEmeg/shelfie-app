@@ -21,9 +21,9 @@ const Review = () => {
   const addToGeneralReviewList = async (book) => {
     let generalBookListFromDB = [];
     const bookRef = await getDoc(doc(db, "books", book.bookID));
-    console.log(bookRef);
+    // console.log(bookRef);
     if (bookRef.exists()) {
-      console.log("User bookList:", bookRef.data().reviewsForBook);
+      // console.log("User bookList:", bookRef.data().reviewsForBook);
       generalBookListFromDB = bookRef.data().reviewsForBook;
     }
     try {
@@ -34,7 +34,7 @@ const Review = () => {
         { merge: true }
       );
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -44,7 +44,7 @@ const Review = () => {
       "Note you can change the text portion of your review in the future, but you cannot change the star component. Are you willing to proceed?"
     );
     if (confirm) {
-      console.log(reviewText);
+      // console.log(reviewText);
       const newReviewedBook = {
         usersFullName: userData.firstName + " " + userData.lastName || "N/A",
         usersID: currentUser.uid || "N/A",
@@ -60,14 +60,14 @@ const Review = () => {
         description: bookReviewed?.volumeInfo?.description || "N/A",
         bookID: bookReviewed?.id || "N/A",
       };
-      console.log(newReviewedBook);
+      // console.log(newReviewedBook);
 
       let bookListFromDB = [];
       const userRef = await getDoc(doc(db, "users", currentUser.uid));
-      console.log(userRef);
-      console.log(userRef.data());
+      // console.log(userRef);
+      // console.log(userRef.data());
       if (userRef.data().booksReviewed) {
-        console.log("User bookList:", userRef.data().booksReviewed);
+        // console.log("User bookList:", userRef.data().booksReviewed);
         bookListFromDB = userRef.data().booksReviewed;
       }
       try {
@@ -78,7 +78,7 @@ const Review = () => {
           { merge: true }
         );
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
       setReviewText("");
       alert("You have successfully reviewed a book");

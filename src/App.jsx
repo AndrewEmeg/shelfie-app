@@ -10,8 +10,9 @@ import { useRest } from "./context/RestContext";
 import BookList from "./components/book-items";
 import Search from "./components/search";
 import Profile from "./pages/profile";
+
 import Review from "./pages/review";
-// import Success from "./pages/success";
+import Feedback from "./pages/feedback";
 import MyList from "./pages/my-list";
 import General from "./pages/general";
 import ProtectedRoutes from "./components/protected-routes";
@@ -44,6 +45,7 @@ function App() {
             </Route>
             <Route path="search" element={<Search />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="feedback" element={<Feedback />} />
           </Route>
 
           <Route path="*" element={<PageNotFound />} />

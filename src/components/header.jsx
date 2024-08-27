@@ -68,6 +68,11 @@ const Header = () => {
                   </NavLink>
                 </li>
                 <li className="text-center self-center rounded-lg p-6 font-medium text-3xl text-teal-700">
+                  <NavLink onClick={handleHeaderNavMenu} to="feedback">
+                    FeedBack
+                  </NavLink>
+                </li>
+                <li className="text-center self-center rounded-lg p-6 font-medium text-3xl text-teal-700">
                   <NavLink
                     to="profile"
                     onClick={() => {
@@ -103,6 +108,9 @@ const Header = () => {
               </li>
               <li className=" rounded-lg p-6 font-medium text-3xl text-white bg-teal-700">
                 <NavLink to="books">Books</NavLink>
+              </li>
+              <li className=" rounded-lg p-6 font-medium text-3xl text-white bg-teal-700">
+                <NavLink to="feedback">Feedback</NavLink>
               </li>
               <li className="rounded-lg p-6 font-medium text-3xl text-white bg-teal-700">
                 <NavLink to="profile" onClick={handlegoToProfile}>
