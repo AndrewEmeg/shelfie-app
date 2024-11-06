@@ -3,7 +3,7 @@
 **Shelfie** is a web application designed for book lovers to explore, review, and share their favorite reads. Built with a sleek and responsive UI, Shelfie offers an easy-to-navigate platform for users to rate and discuss books, fostering a community of avid readers.
 
 ## 🌐 Live Demo
-Check out Shelfie live: [Your Live URL Here]
+Check out Shelfie live: [[Click here to view](https://shelfie-app-73320.web.app/)]
 
 ## 📸 Sneak Peek
 
