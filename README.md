@@ -39,7 +39,8 @@ Shelfie/
 └── package.json
 
 
-# 🎨 Design
+```
+## 🎨 Design
 The user interface is crafted with Tailwind CSS, prioritizing both aesthetics and functionality. Key design considerations include:
 
 - **Consistency**: Components are styled with a unified color palette for a professional, cohesive look.
@@ -47,21 +48,19 @@ The user interface is crafted with Tailwind CSS, prioritizing both aesthetics an
 - **Responsive Layouts**: Optimized for both mobile and desktop views.
 
 
-📚 Lessons Learned
+## 📚 Lessons Learned
 Building Shelfie provided hands-on experience with integrating Firebase, designing a responsive UI, and creating a seamless user experience. The project deepened skills in React, Firebase integration, and Tailwind CSS, and reinforced best practices in modern web development.
 
-📝 Future Enhancements
+## 📝 Future Enhancements
 Recommendation System: Suggest books based on users' review history.
 Social Sharing: Allow users to share their reviews on social media platforms.
 Enhanced Search: Implement advanced search and filter features.
-💡 Inspiration
+
+## 💡 Inspiration
 Inspired by the desire to create a community where readers can freely discuss and discover books, Shelfie encourages users to share and find recommendations through a user-friendly interface.
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-📬 Contact
+## 📬 Contact
 For any questions, feel free to reach out:
 
-Email: [Your Email Here]
-LinkedIn: [Your LinkedIn Profile]
+Email: [andrewemeghebo2023@gmail.com]
+LinkedIn: [[Your LinkedIn Profile](https://www.linkedin.com/in/andrewemeghebo/)]
